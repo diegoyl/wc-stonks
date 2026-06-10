@@ -136,7 +136,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
     const projRow: Record<string, string | number> = { date: PROJECTED_DATE }
     for (const pid of chartPlayers) {
       lastRow[pid + '_proj'] = lastRow[pid] as number ?? 0
-      projRow[pid + '_proj'] = entries.find(e => e.player.id === pid)?.projected_value
+      projRow[pid + '_proj'] = entries.find(e => String(e.player.id) === pid)?.projected_value
         ?? (lastRow[pid] as number ?? 0)
     }
     return [...filledChartData.slice(0, -1), lastRow, projRow]
@@ -145,7 +145,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
   const sortedEntries = [...entries].sort((a, b) =>
     sort === 'actual' ? b.current_value - a.current_value : b.projected_value - a.projected_value
   )
-  const chartList = entries.filter(e => chartPlayers.has(e.player.id))
+  const chartList = entries.filter(e => chartPlayers.has(String(e.player.id)))
 
   return (
     <div>
@@ -155,12 +155,12 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
         <div className="flex items-center gap-2 mb-2">
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5 flex-1 min-w-0">
             {entries.map(entry => {
-              const active = chartPlayers.has(entry.player.id)
-              const color = PLAYER_COLORS[entry.player.id] ?? '#6b7280'
+              const active = chartPlayers.has(String(entry.player.id))
+              const color = PLAYER_COLORS[String(entry.player.id)] ?? '#6b7280'
               return (
                 <button
                   key={entry.player.id}
-                  onClick={() => togglePlayer(entry.player.id)}
+                  onClick={() => togglePlayer(String(entry.player.id))}
                   className={`px-2.5 py-1 rounded-full text-xs font-medium border shrink-0 transition-all active:scale-95 ${
                     active ? 'border-transparent text-white' : 'border-white/[0.12] text-[#555] bg-transparent'
                   }`}
@@ -183,19 +183,19 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
               <Tooltip
                 formatter={(value, name) => {
                   const pid = String(name).replace('_proj', '')
-                  const label = entries.find(e => e.player.id === pid)?.player.name ?? pid
+                  const label = entries.find(e => String(e.player.id) === pid)?.player.name ?? pid
                   return [`${value}¢`, String(name).endsWith('_proj') ? `${label} (proj)` : label]
                 }}
                 labelFormatter={l => String(l)}
                 {...CHART_STYLE.tooltip}
               />
               {chartList.map(entry => (
-                <Line key={entry.player.id} type="monotone" dataKey={entry.player.id}
-                  stroke={PLAYER_COLORS[entry.player.id]} strokeWidth={2} dot={false} activeDot={{ r: 3 }} />
+                <Line key={entry.player.id} type="monotone" dataKey={String(entry.player.id)}
+                  stroke={PLAYER_COLORS[String(entry.player.id)]} strokeWidth={2} dot={false} activeDot={{ r: 3 }} />
               ))}
               {chartMode === 'market' && chartList.map(entry => (
-                <Line key={entry.player.id + '_proj'} type="monotone" dataKey={entry.player.id + '_proj'}
-                  stroke={PLAYER_COLORS[entry.player.id]} strokeWidth={1.5} strokeDasharray="5 3"
+                <Line key={String(entry.player.id) + '_proj'} type="monotone" dataKey={String(entry.player.id) + '_proj'}
+                  stroke={PLAYER_COLORS[String(entry.player.id)]} strokeWidth={1.5} strokeDasharray="5 3"
                   dot={false} opacity={0.7} />
               ))}
             </LineChart>
@@ -219,14 +219,14 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
             </thead>
             <tbody>
               {sortedEntries.map(entry => {
-                const isMe = entry.player.id === playerId
+                const isMe = String(entry.player.id) === playerId
                 const retPct = (entry.projected_value / 100 - 1) * 100
                 const retColor = retPct >= 0 ? 'text-[#00c805]' : 'text-[#ff4b4b]'
                 return (
                   <tr
                     key={entry.player.id}
                     className="border-b border-white/[0.05] last:border-0 active:bg-white/[0.03] cursor-pointer"
-                    onClick={() => onPlayerClick(entry.player.id)}
+                    onClick={() => onPlayerClick(String(entry.player.id))}
                   >
                     <td className="px-4 py-3">
                       <span className="font-medium text-white">{entry.player.name}</span>

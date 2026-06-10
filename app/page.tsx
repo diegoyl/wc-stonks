@@ -527,7 +527,7 @@ export default function DraftPage() {
       <header className="bg-[#18110D] border-b border-white/[0.08] sticky top-0 z-40">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <img src="/trophy.png" alt="trophy" className="w-6 h-6 object-contain" style={{ imageRendering: 'pixelated' }} />
+            <img src="/trophy.png" alt="trophy" className="w-6 h-6 object-contain scale-[1.4]" style={{ imageRendering: 'pixelated' }} />
             <span className="font-bold text-white text-lg">Quiniela Draft</span>
           </div>
           <button

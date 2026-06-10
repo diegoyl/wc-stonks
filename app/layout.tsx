@@ -5,8 +5,12 @@ import './globals.css'
 const font = DotGothic16({ weight: '400', subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'WC Stonks',
-  description: 'World Cup betting pool — track your portfolio',
+  title: 'Quiniela',
+  description: 'Quiniela Mundial 2026',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
