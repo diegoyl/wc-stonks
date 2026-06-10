@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     icon: '/favicon.png',
     apple: '/favicon.png',
   },
+  openGraph: {
+    title: 'Quiniela',
+    description: 'Quiniela Mundial 2026',
+    images: ['/favicon.png'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
