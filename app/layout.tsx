@@ -7,14 +7,20 @@ const font = DotGothic16({ weight: '400', subsets: ['latin'], display: 'swap' })
 export const metadata: Metadata = {
   title: 'Quiniela',
   description: 'Quiniela Mundial 2026',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Quiniela',
+  },
   icons: {
     icon: '/favicon.png',
-    apple: '/favicon.png',
+    apple: '/banner-square.png',
   },
   openGraph: {
     title: 'Quiniela',
     description: 'Quiniela Mundial 2026',
-    images: ['/favicon.png'],
+    images: ['/banner-square.png'],
   },
 }
 
