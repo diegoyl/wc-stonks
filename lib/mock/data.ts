@@ -13,10 +13,10 @@ import { DRAFT_TEAMS } from '@/lib/data/teams'
 // ─── Players ────────────────────────────────────────────────────────────────
 
 export const PLAYERS: Player[] = [
-  { id: 'player-diego', name: 'Diego',     slug: 'diego' },
   { id: 'player-marco', name: 'Andres',    slug: 'andres' },
   { id: 'player-sofia', name: 'Ana Paula', slug: 'ana-paula' },
   { id: 'player-lucas', name: 'Fabian',    slug: 'fabian' },
+  { id: 'player-diego', name: 'Diego',     slug: 'diego' },
   { id: 'player-ana',   name: 'Mami',      slug: 'mami' },
   { id: 'player-raj',   name: 'Papi',      slug: 'papi' },
 ]

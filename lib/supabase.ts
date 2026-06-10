@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import type { Player } from '@/lib/types'
 
 function getSupabase() {
   return createClient(
@@ -9,21 +10,41 @@ function getSupabase() {
 
 export type DraftPicks = Record<string, number> // team code → share count
 
-// Most recent submission per player = official
-// Table: draft_submissions(id uuid, player_id text, submitted_at timestamptz, picks jsonb)
+// Table: players(id serial, name text, slug text)
 
-export async function loadDraftSubmission(playerId: string): Promise<DraftPicks | null> {
+export async function loadPlayers(): Promise<Player[]> {
+  const { data } = await getSupabase()
+    .from('players')
+    .select('id, name, slug')
+    .order('id', { ascending: true })
+  return (data ?? []) as Player[]
+}
+
+export async function createPlayer(name: string): Promise<Player> {
+  const slug = name.trim().toLowerCase().replace(/\s+/g, '-')
+  const { data, error } = await getSupabase()
+    .from('players')
+    .insert({ name: name.trim(), slug })
+    .select()
+    .single()
+  if (error) throw error
+  return data as Player
+}
+
+// Table: draft_submissions(id uuid, player_id integer, submitted_at timestamptz, picks jsonb)
+
+export async function loadDraftSubmission(playerId: number): Promise<DraftPicks | null> {
   const { data } = await getSupabase()
     .from('draft_submissions')
     .select('picks')
     .eq('player_id', playerId)
     .order('submitted_at', { ascending: false })
     .limit(1)
-    .single()
+    .maybeSingle()
   return data?.picks ?? null
 }
 
-export async function saveDraftSubmission(playerId: string, picks: DraftPicks): Promise<void> {
+export async function saveDraftSubmission(playerId: number, picks: DraftPicks): Promise<void> {
   const { error } = await getSupabase()
     .from('draft_submissions')
     .insert({ player_id: playerId, picks })

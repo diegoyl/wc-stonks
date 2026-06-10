@@ -3,10 +3,11 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { DRAFT_TEAMS } from '@/lib/data/teams'
 import type { DraftTeam } from '@/lib/data/teams'
-import { PLAYERS, MAIN_POT_RULES } from '@/lib/mock/data'
+import { MAIN_POT_RULES } from '@/lib/mock/data'
 import FlagImage from '@/components/FlagImage'
 import DraftTeamPopup from '@/components/DraftTeamPopup'
-import { loadDraftSubmission, saveDraftSubmission } from '@/lib/supabase'
+import { loadDraftSubmission, saveDraftSubmission, loadPlayers, createPlayer } from '@/lib/supabase'
+import type { Player } from '@/lib/types'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -39,7 +40,7 @@ function ConfirmModal({
         <div className="px-5 pt-5 pb-3">
           <h2 className="text-lg font-bold text-white uppercase tracking-wide">Confirm Selections</h2>
           {remaining >= 2 && (
-            <p className="text-xs text-red-300/80 mt-1.5">You still have {remaining}¢ left</p>
+            <p className="text-xs text-[#f87171] mt-1.5">You still have {remaining}¢ left</p>
           )}
         </div>
         <div className="border-t border-white/[0.08]">
@@ -65,18 +66,18 @@ function ConfirmModal({
           </table>
         </div>
         <div className="px-5 py-4 border-t border-white/[0.08]">
-          <div className="flex gap-3">
-            <button
-              onClick={onEdit}
-              className="flex-1 py-3 rounded-xl border border-white/[0.12] text-sm font-bold text-white hover:bg-white/[0.05] transition-colors uppercase"
-            >
-              Edit Draft
-            </button>
+          <div className="flex flex-col gap-2">
             <button
               onClick={onConfirm}
-              className="flex-1 py-3 rounded-xl bg-[#c9bba9] text-[#3d1f0a] text-sm font-bold hover:bg-[#c9bba9]/90 transition-colors uppercase"
+              className="w-full py-3 rounded-lg bg-[#c9bba9] text-[#3d1f0a] text-sm font-bold hover:bg-[#c9bba9]/90 transition-colors uppercase"
             >
               Submit
+            </button>
+            <button
+              onClick={onEdit}
+              className="w-full py-3 rounded-lg border border-white/[0.12] text-sm font-bold text-white hover:bg-white/[0.05] transition-colors uppercase"
+            >
+              Edit Draft
             </button>
           </div>
           <p className="text-xs text-white/40 text-center mt-3">Resubmit anytime to make changes</p>
@@ -102,21 +103,117 @@ function SuccessScreen({ playerName }: { playerName: string }) {
 
 // ─── Player picker ────────────────────────────────────────────────────────────
 
-function PlayerPicker({ onSelect }: { onSelect: (id: string) => void }) {
+function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
+  const [players, setPlayers] = useState<Player[]>([])
+  const [loadingPlayers, setLoadingPlayers] = useState(true)
+  const [addingNew, setAddingNew] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    loadPlayers().then(p => { setPlayers(p); setLoadingPlayers(false) })
+  }, [])
+
+  async function handleCreate() {
+    if (!newName.trim()) return
+    setSaving(true)
+    const player = await createPlayer(newName)
+    onSelect(player)
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
-        <h2 className="text-lg font-bold text-white mb-4">Who are you?</h2>
+        <h2 className="text-lg font-bold text-white mb-4 text-center">Who are you?</h2>
         <div className="space-y-2">
-          {PLAYERS.map(p => (
+          {loadingPlayers
+            ? <p className="text-sm text-[#6b5c4e] text-center py-2">Loading…</p>
+            : players.map(p => (
+              <button
+                key={p.id}
+                onClick={() => onSelect(p)}
+                className="w-full text-left px-4 py-3 rounded-xl border border-white/[0.08] text-white font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase"
+              >
+                {p.name}
+              </button>
+            ))
+          }
+          {!loadingPlayers && (addingNew ? (
+            <div className="flex gap-2 pt-1">
+              <input
+                autoFocus
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleCreate()}
+                placeholder="Name"
+                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.12] text-white text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
+              />
+              <button
+                onClick={handleCreate}
+                disabled={!newName.trim() || saving}
+                className="px-3 py-2 rounded-lg bg-[#c9bba9] text-[#18110D] text-sm font-bold disabled:opacity-40"
+              >
+                {saving ? '…' : 'Add'}
+              </button>
+            </div>
+          ) : (
             <button
-              key={p.id}
-              onClick={() => onSelect(p.id)}
-              className="w-full text-left px-4 py-3 rounded-xl border border-white/[0.08] text-white font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase"
+              onClick={() => setAddingNew(true)}
+              className="w-full text-left px-4 py-3 rounded-xl bg-[#c9bba9] text-[#18110D] font-bold text-sm hover:bg-[#c9bba9]/90 transition-colors uppercase"
             >
-              {p.name}
+              + New User
             </button>
           ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── View teams modal ─────────────────────────────────────────────────────────
+
+function ViewTeamsModal({ shares, onClose }: { shares: Record<string, number>; onClose: () => void }) {
+  const pickedTeams = SORTED_TEAMS
+    .filter(t => (shares[t.id] ?? 0) > 0)
+    .sort((a, b) => (shares[b.id] * b.draft_value) - (shares[a.id] * a.draft_value))
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+      <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className="px-5 pt-5 pb-3">
+          <h2 className="text-lg font-bold text-white uppercase tracking-wide">Your Teams</h2>
+          {pickedTeams.length === 0 && (
+            <p className="text-xs text-[#6b5c4e] mt-1.5">No teams selected yet.</p>
+          )}
+        </div>
+        {pickedTeams.length > 0 && (
+          <div className="border-t border-white/[0.08] overflow-y-auto max-h-[60vh]">
+            <table className="w-full text-sm">
+              <tbody>
+                {pickedTeams.map(team => {
+                  const count = shares[team.id]
+                  const total = count * team.draft_value
+                  return (
+                    <tr key={team.id} className="border-b border-white/[0.05] last:border-0">
+                      <td className="pl-4 py-2.5">
+                        <FlagImage code={team.code} name={team.name} size={30} outlined />
+                      </td>
+                      <td className="pl-2 pr-3 py-2.5 text-base font-semibold text-white">{team.code}</td>
+                      <td className="py-2.5 text-xs text-white/40 text-right tabular-nums">{count}</td>
+                      <td className="py-2.5 px-1.5 text-xs text-white/40 text-center">×</td>
+                      <td className="py-2.5 text-xs text-white/40 text-left tabular-nums">{team.draft_value}¢</td>
+                      <td className="pr-4 pl-3 py-2.5 text-right text-base font-bold text-[#eeb22d] tabular-nums">{total}¢</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <div className="px-5 py-4 border-t border-white/[0.08]">
+          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase">
+            Close
+          </button>
         </div>
       </div>
     </div>
@@ -212,7 +309,7 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
             <p className="text-lg font-bold"><span className="text-[#6bcb69]">$1</span> = <span className="text-[#eeb22d]">10¢</span></p>
           </div>
           <p className="text-xs text-white/50 mt-1.5 leading-relaxed normal-case">
-          Teams earn prizes by winning matches or bonus prizes. If you own multiple shares, you win <span className="text-[#eeb22d]">prize × share count</span>
+          Teams earn prizes by winning matches or bonus prizes. If you own multiple shares, you win <span className="text-[#eeb22d]">prize × shares</span>
           </p>
         </div>
 
@@ -286,18 +383,20 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function DraftPage() {
-  const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null)
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [pickerOpen, setPickerOpen] = useState(true)
   const [shares, setShares] = useState<Record<string, number>>({})
   const [openTeam, setOpenTeam] = useState<DraftTeam | null>(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [betsOpen, setBetsOpen] = useState(false)
+  const [teamsOpen, setTeamsOpen] = useState(false)
   const [instructionsVisible, setInstructionsVisible] = useState(true)
   const instructionsRef = useRef<HTMLDivElement>(null)
   const [tableHeaderSticky, setTableHeaderSticky] = useState(false)
   const tableSentinelRef = useRef<HTMLDivElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [overBudgetOpen, setOverBudgetOpen] = useState(false)
 
   // Always show picker on mount
   useEffect(() => { setPickerOpen(true) }, [])
@@ -308,7 +407,7 @@ export default function DraftPage() {
     const observer = new IntersectionObserver(([entry]) => setInstructionsVisible(entry.isIntersecting), { threshold: 0 })
     observer.observe(el)
     return () => observer.disconnect()
-  }, [loading])
+  }, [loading]) // re-run after loading screen unmounts so ref is attached
 
   useEffect(() => {
     const el = tableSentinelRef.current
@@ -321,12 +420,12 @@ export default function DraftPage() {
     return () => observer.disconnect()
   }, [loading])
 
-  async function handlePlayerSelect(playerId: string) {
-    setSelectedPlayer(playerId)
+  async function handlePlayerSelect(player: Player) {
+    setSelectedPlayer(player)
     setPickerOpen(false)
     setLoading(true)
     const [prior] = await Promise.all([
-      loadDraftSubmission(playerId),
+      loadDraftSubmission(player.id),
       new Promise(res => setTimeout(res, 1000)),
     ])
     if (prior) setShares(prior as typeof shares)
@@ -347,9 +446,14 @@ export default function DraftPage() {
 
   async function handleConfirmSubmit() {
     if (!selectedPlayer) return
-    await saveDraftSubmission(selectedPlayer, shares)
-    setConfirmOpen(false)
-    setSubmitted(true)
+    try {
+      await saveDraftSubmission(selectedPlayer.id, shares)
+      setConfirmOpen(false)
+      setSubmitted(true)
+    } catch {
+      setConfirmOpen(false)
+      alert('Failed to save your draft. Please try again.')
+    }
   }
 
   const spent = useMemo(
@@ -358,8 +462,13 @@ export default function DraftPage() {
   )
   const remaining = BUDGET - spent
   const teamCount = Object.values(shares).filter(n => n > 0).length
-  const playerName = PLAYERS.find(p => p.id === selectedPlayer)?.name ?? ''
+  const playerName = selectedPlayer?.name ?? ''
   const canSubmit = remaining >= 0 && !!selectedPlayer && !submitted && teamCount > 0
+
+  function handleSubmitClick() {
+    if (remaining < 0) { setOverBudgetOpen(true); return }
+    setConfirmOpen(true)
+  }
 
   // Animated budget counter
   const [displayRemaining, setDisplayRemaining] = useState(BUDGET)
@@ -380,14 +489,15 @@ export default function DraftPage() {
   }, [remaining])
 
   const budgetColor = animDir !== 0
-    ? (animDir > 0 ? 'text-[#5eead4]' : 'text-[#fca5a5]')
-    : (remaining < 0 ? 'text-[#ff4b4b]' : 'text-[#eeb22d]')
+    ? (animDir > 0 ? 'text-[#4ade80]' : 'text-[#f87171]')
+    : (remaining < 0 ? 'text-[#ef4444]' : 'text-[#eeb22d]')
 
   if (submitted) return <SuccessScreen playerName={playerName} />
 
   return (
     <>
       {pickerOpen && <PlayerPicker onSelect={handlePlayerSelect} />}
+      {teamsOpen && <ViewTeamsModal shares={shares} onClose={() => setTeamsOpen(false)} />}
       {confirmOpen && (
         <ConfirmModal
           shares={shares}
@@ -398,6 +508,20 @@ export default function DraftPage() {
       )}
       {openTeam && <DraftTeamPopup team={openTeam} onClose={() => setOpenTeam(null)} />}
       {betsOpen && <BetsPopup onClose={() => setBetsOpen(false)} />}
+      {overBudgetOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-xs p-5">
+            <p className="text-white font-bold text-base mb-1 uppercase">Over Budget</p>
+            <p className="text-sm text-white/70 mb-4 normal-case">You are <span className="text-[#f87171] font-bold">{Math.abs(remaining)}¢</span> over budget. Adjust your selections.</p>
+            <button
+              onClick={() => setOverBudgetOpen(false)}
+              className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Top bar */}
       <header className="bg-[#18110D] border-b border-white/[0.08] sticky top-0 z-40">
@@ -407,12 +531,11 @@ export default function DraftPage() {
             <span className="font-bold text-white text-lg">Quiniela Draft</span>
           </div>
           <button
-            disabled={!canSubmit}
-            onClick={() => setConfirmOpen(true)}
+            onClick={handleSubmitClick}
             className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-colors uppercase ${
               canSubmit
                 ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
-                : 'bg-white/[0.06] text-[#6b5c4e] cursor-not-allowed'
+                : 'bg-white/[0.06] text-[#6b5c4e]'
             }`}
           >
             Submit
@@ -435,7 +558,7 @@ export default function DraftPage() {
             <div ref={instructionsRef} className="px-4 mb-4">
               {selectedPlayer && (
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl font-bold text-white uppercase">{playerName}</span>
+                  <span className="text-3xl font-bold text-white uppercase">{playerName}</span>
                   <button
                     onClick={() => setPickerOpen(true)}
                     className="px-2.5 py-1 rounded-lg text-xs font-semibold text-[#6b5c4e] bg-white/[0.05] hover:bg-white/[0.08] hover:text-[#888] transition-colors uppercase"
@@ -444,18 +567,21 @@ export default function DraftPage() {
                   </button>
                 </div>
               )}
+              <p className="text-sm text-white font-bold uppercase mb-1 mt-4">Instructions</p>
               <ul className="text-xs text-white/60 leading-relaxed space-y-0.5 list-disc list-inside">
-<li><span className="text-[#6bcb69]">$20</span> buy-in = <span className="text-[#eeb22d] font-semibold">100 coins(¢)</span> for buying teams</li>
-<li>buy multiple shares, up to <span className="text-[#eeb22d] font-semibold">40¢</span> per team</li>
-<li>win <span className="text-[#eeb22d] font-semibold">COINS</span> when your teams earn prizes</li>
-<li>press a team name for more info</li>
+<li><span className="text-[#6bcb69]">$20</span> buy-in = <span className="text-[#eeb22d] font-semibold">200¢</span> for buying teams</li>
+<li>buy multiple shares, up to <span className="text-[#eeb22d] font-semibold">80¢</span> per team</li>
+<li>win <span className="text-[#eeb22d] font-semibold">coins</span> when your teams earn prizes</li>
 </ul>
-              <button
-                onClick={() => setBetsOpen(true)}
-                className="my-3 px-2.5 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
-              >
-                See Prizes
-              </button>
+              <div className="flex justify-center my-3">
+                <button
+                  onClick={() => setBetsOpen(true)}
+                  className="px-2.5 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
+                >
+                  See Prizes
+                </button>
+              </div>
+              <p className="text-xs text-white/40 text-center mt-10 mb-0">press a team name for more info</p>
             </div>
 
             <div ref={tableSentinelRef} style={{ height: 0 }} />
@@ -526,12 +652,11 @@ export default function DraftPage() {
           {/* Submit button below table */}
           <div className="mt-10 flex flex-col items-center gap-2">
             <button
-              disabled={!canSubmit}
-              onClick={() => setConfirmOpen(true)}
+              onClick={handleSubmitClick}
               className={`px-8 py-3 rounded-xl text-sm font-bold transition-colors uppercase ${
                 canSubmit
                   ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
-                  : 'bg-white/[0.06] text-[#6b5c4e] cursor-not-allowed'
+                  : 'bg-white/[0.06] text-[#6b5c4e]'
               }`}
             >
               Submit Draft
@@ -559,10 +684,10 @@ export default function DraftPage() {
               See Prizes
             </button>
           </div>
-          <div className="text-right">
+          <button className="text-right" onClick={() => setTeamsOpen(true)}>
             <p className="text-3xl font-bold text-white">{teamCount}</p>
-            <p className="text-xs text-[#6b5c4e] mt-0.5">Teams</p>
-          </div>
+            <p className="text-xs text-[#6b5c4e] mt-0.5 uppercase">View Teams</p>
+          </button>
         </div>
       </div>
     </>

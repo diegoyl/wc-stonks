@@ -1,7 +1,7 @@
 // ─── Core entities (mirror DATA_STRUCTURE.md) ───────────────────────────────
 
 export interface Player {
-  id: string
+  id: number
   name: string
   slug: string
 }
@@ -20,7 +20,7 @@ export interface Team {
 
 export interface Holding {
   id: string
-  player_id: string
+  player_id: number
   team_id: string
   shares: number
 }
