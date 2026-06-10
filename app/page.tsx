@@ -196,7 +196,7 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
           <div className="space-y-1.5">
             {([
               ['Hat Trick',                10],
-              ['David Attends Team Game',  null],
+              ['David Attends Team Game',  20],
             ] as [string, number | null][]).map(([name, payout]) => (
               <div key={name} className="flex items-center justify-between gap-3">
                 <span className="text-sm text-white">{name}</span>
