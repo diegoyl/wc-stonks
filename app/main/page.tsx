@@ -91,7 +91,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
   const [sort, setSort] = useState<'actual' | 'market'>('actual')
   const [chartMode, setChartMode] = useState<ChartMode>('actual')
   const [chartPlayers, setChartPlayers] = useState<Set<string>>(
-    new Set(entries.slice(0, 4).map(e => e.player.id))
+    new Set(entries.slice(0, 4).map(e => String(e.player.id)))
   )
 
   function togglePlayer(id: string) {
