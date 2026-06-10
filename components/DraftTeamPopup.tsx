@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import FlagImage from './FlagImage'
+import WavingFlagImage from './WavingFlagImage'
 import type { DraftTeam } from '@/lib/data/teams'
 import { DRAFT_TEAMS } from '@/lib/data/teams'
 
@@ -39,228 +40,278 @@ type Stars = 0 | 1 | 2 | 3
 interface PlayerEntry { name: string; stars: Stars }
 
 const STAR_PLAYERS: Record<string, PlayerEntry[]> = {
-  ESP: [
-    { name: 'Lamine Yamal', stars: 3 },
-    { name: 'Rodri',        stars: 3 },
-    { name: 'Pedri',        stars: 2 },
-    { name: 'Morata',       stars: 1 },
-    { name: 'Carvajal',     stars: 1 },
-  ],
-  FRA: [
-    { name: 'Mbappé',      stars: 3 },
-    { name: 'Griezmann',   stars: 2 },
-    { name: 'Camavinga',   stars: 2 },
-    { name: 'Dembélé',     stars: 2 },
-    { name: 'Upamecano',   stars: 1 },
-  ],
   ARG: [
-    { name: 'Messi',       stars: 3 },
-    { name: 'De Paul',     stars: 2 },
-    { name: 'J. Álvarez',  stars: 2 },
-    { name: 'Mac Allister',stars: 2 },
-    { name: 'Dybala',      stars: 1 },
+    { name: 'Lionel Messi',         stars: 3 },
+    { name: 'Lautaro Martínez',     stars: 3 },
+    { name: 'Julián Álvarez',       stars: 2 },
+    { name: 'Alexis Mac Allister',  stars: 2 },
+    { name: 'Enzo Fernández',       stars: 1 },
+    { name: 'Rodrigo de Paul',      stars: 1 },
   ],
   BRA: [
-    { name: 'Vinicius Jr', stars: 3 },
-    { name: 'Rodrygo',     stars: 2 },
-    { name: 'Paquetá',     stars: 2 },
-    { name: 'Endrick',     stars: 1 },
-    { name: 'Militão',     stars: 1 },
+    { name: 'Vinícius Júnior',  stars: 3 },
+    { name: 'Raphinha',         stars: 3 },
+    { name: 'Gabriel Magalhães',stars: 2 },
+    { name: 'Bruno Guimarães',  stars: 1 },
+    { name: 'Neymar Jr.',       stars: 1 },
+    { name: 'Endrick',          stars: 1 },
   ],
   ENG: [
-    { name: 'Bellingham',        stars: 3 },
-    { name: 'Saka',              stars: 2 },
-    { name: 'Kane',              stars: 2 },
-    { name: 'Foden',             stars: 2 },
-    { name: 'Alexander-Arnold',  stars: 1 },
+    { name: 'Harry Kane',      stars: 3 },
+    { name: 'Jude Bellingham', stars: 3 },
+    { name: 'Bukayo Saka',     stars: 2 },
+    { name: 'Declan Rice',     stars: 2 },
+    { name: 'Marcus Rashford', stars: 1 },
+    { name: 'Kobbie Mainoo',   stars: 1 },
   ],
-  POR: [
-    { name: 'Cristiano',   stars: 2 },
-    { name: 'B. Silva',    stars: 2 },
-    { name: 'R. Leão',     stars: 2 },
-    { name: 'Vitinha',     stars: 1 },
-    { name: 'Rúben Dias',  stars: 1 },
+  FRA: [
+    { name: 'Kylian Mbappé',        stars: 3 },
+    { name: 'Ousmane Dembélé',      stars: 3 },
+    { name: 'Michael Olise',        stars: 2 },
+    { name: 'Aurélien Tchouaméni',  stars: 2 },
+    { name: 'Rayan Cherki',         stars: 2 },
+    { name: 'Désiré Doué',          stars: 2 },
   ],
   GER: [
-    { name: 'Wirtz',    stars: 3 },
-    { name: 'Musiala',  stars: 3 },
-    { name: 'Havertz',  stars: 1 },
-    { name: 'Kimmich',  stars: 1 },
-    { name: 'Rüdiger',  stars: 1 },
+    { name: 'Joshua Kimmich',  stars: 3 },
+    { name: 'Florian Wirtz',   stars: 2 },
+    { name: 'Jamal Musiala',   stars: 2 },
+    { name: 'Manuel Neuer',    stars: 1 },
+    { name: 'Kai Havertz',     stars: 1 },
+    { name: 'Antonio Rüdiger', stars: 1 },
+  ],
+  POR: [
+    { name: 'Vitinha',           stars: 3 },
+    { name: 'Bruno Fernandes',   stars: 2 },
+    { name: 'Cristiano Ronaldo', stars: 2 },
+    { name: 'Nuno Mendes',       stars: 2 },
+    { name: 'João Neves',        stars: 1 },
+    { name: 'Rafael Leão',       stars: 1 },
+  ],
+  ESP: [
+    { name: 'Lamine Yamal',  stars: 3 },
+    { name: 'Rodri',         stars: 3 },
+    { name: 'Pedri',         stars: 2 },
+    { name: 'Gavi',          stars: 2 },
+    { name: 'Nico Williams', stars: 1 },
+    { name: 'Dani Olmo',     stars: 1 },
   ],
   NED: [
-    { name: 'Gakpo',    stars: 2 },
-    { name: 'De Jong',  stars: 2 },
-    { name: 'Van Dijk', stars: 1 },
-    { name: 'Dumfries', stars: 1 },
-  ],
-  BEL: [
-    { name: 'De Bruyne', stars: 3 },
-    { name: 'Lukaku',    stars: 2 },
-    { name: 'Tielemans', stars: 1 },
-    { name: 'Doku',      stars: 1 },
-  ],
-  MAR: [
-    { name: 'Hakimi',     stars: 2 },
-    { name: 'Ziyech',     stars: 1 },
-    { name: 'En-Nesyri',  stars: 1 },
-    { name: 'Bounou',     stars: 1 },
-  ],
-  JPN: [
-    { name: 'Mitoma',    stars: 1 },
-    { name: 'Doan',      stars: 1 },
-    { name: 'Minamino',  stars: 1 },
+    { name: 'Virgil van Dijk',    stars: 3 },
+    { name: 'Frenkie de Jong',    stars: 2 },
+    { name: 'Tijjani Reijnders',  stars: 2 },
+    { name: 'Ryan Gravenberch',   stars: 1 },
+    { name: 'Cody Gakpo',         stars: 1 },
   ],
   NOR: [
-    { name: 'Haaland',   stars: 3 },
-    { name: 'Ødegaard',  stars: 2 },
-    { name: 'Nusa',      stars: 1 },
+    { name: 'Erling Haaland',    stars: 3 },
+    { name: 'Alexander Sørloth', stars: 3 },
+    { name: 'Martin Ødegaard',   stars: 2 },
+  ],
+  BEL: [
+    { name: 'Kevin De Bruyne', stars: 3 },
+    { name: 'Jérémy Doku',     stars: 2 },
+    { name: 'Youri Tielemans', stars: 1 },
+    { name: 'Romelu Lukaku',   stars: 1 },
   ],
   COL: [
-    { name: 'James',    stars: 2 },
-    { name: 'Díaz',     stars: 2 },
-    { name: 'Caicedo',  stars: 2 },
-    { name: 'Arias',    stars: 1 },
+    { name: 'Luis Díaz',          stars: 3 },
+    { name: 'Davinson Sánchez',   stars: 1 },
+    { name: 'Jefferson Lerma',    stars: 1 },
+    { name: 'James Rodríguez',    stars: 0 },
   ],
-  URU: [
-    { name: 'Valverde',  stars: 2 },
-    { name: 'Núñez',     stars: 2 },
-    { name: 'Bentancur', stars: 1 },
+  MAR: [
+    { name: 'Achraf Hakimi',    stars: 3 },
+    { name: 'Brahim Díaz',      stars: 2 },
+    { name: 'Yassine Bounou',   stars: 0 },
+    { name: 'Noussair Mazraoui',stars: 0 },
   ],
-  SEN: [
-    { name: 'Mané',   stars: 2 },
-    { name: 'Sarr',   stars: 1 },
-    { name: 'Diatta', stars: 1 },
-  ],
-  CRO: [
-    { name: 'Modrić',   stars: 2 },
-    { name: 'Gvardiol', stars: 2 },
-    { name: 'Kovačić',  stars: 1 },
-  ],
-  ECU: [
-    { name: 'Caicedo',  stars: 2 },
-    { name: 'Valencia', stars: 1 },
-    { name: 'Plata',    stars: 1 },
-  ],
-  USA: [
-    { name: 'Pulisic',   stars: 2 },
-    { name: 'Reyna',     stars: 1 },
-    { name: 'McKennie',  stars: 1 },
-    { name: 'Weah',      stars: 1 },
+  JPN: [
+    { name: 'Takefusa Kubo', stars: 2 },
+    { name: 'Ritsu Doan',    stars: 0 },
+    { name: 'Wataru Endo',   stars: 0 },
   ],
   MEX: [
-    { name: 'Lozano',   stars: 1 },
-    { name: 'Jiménez',  stars: 1 },
-    { name: 'Antuna',   stars: 0 },
+    { name: 'Raúl Jiménez',    stars: 2 },
+    { name: 'Edson Álvarez',   stars: 1 },
+    { name: 'Santiago Giménez',stars: 1 },
+    { name: 'Alexis Vega',     stars: 0 },
+    { name: 'Gilberto Mora',   stars: 0 },
+    { name: 'Julian Quiñones', stars: 0 },
   ],
-  SUI: [
-    { name: 'Xhaka',   stars: 1 },
-    { name: 'Shaqiri', stars: 1 },
-    { name: 'Embolo',  stars: 1 },
+  USA: [
+    { name: 'Christian Pulisic', stars: 2 },
+    { name: 'Antonee Robinson',  stars: 1 },
+    { name: 'Weston McKennie',   stars: 1 },
+    { name: 'Tyler Adams',       stars: 0 },
+    { name: 'Sergiño Dest',      stars: 0 },
+    { name: 'Folarin Balogun',   stars: 0 },
+  ],
+  CRO: [
+    { name: 'Joško Gvardiol',  stars: 2 },
+    { name: 'Luka Modrić',     stars: 2 },
+    { name: 'Mateo Kovačić',   stars: 2 },
+    { name: 'Ante Budimir',    stars: 1 },
+    { name: 'Ivan Perišić',    stars: 1 },
+    { name: 'Andrej Kramarić', stars: 1 },
+  ],
+  URU: [
+    { name: 'Federico Valverde',    stars: 3 },
+    { name: 'Ronald Araújo',        stars: 2 },
+    { name: 'Darwin Núñez',         stars: 1 },
+    { name: 'Manuel Ugarte',        stars: 1 },
+    { name: 'José María Giménez',   stars: 0 },
+  ],
+  SEN: [
+    { name: 'Sadio Mané',        stars: 2 },
+    { name: 'Kalidou Koulibaly', stars: 1 },
+    { name: 'Pape Matar Sarr',   stars: 0 },
+    { name: 'Nicolas Jackson',   stars: 0 },
+    { name: 'Ismaïla Sarr',      stars: 0 },
   ],
   TUR: [
-    { name: 'Çalhanoğlu', stars: 2 },
-    { name: 'Güler',      stars: 1 },
-    { name: 'Yıldız',     stars: 1 },
+    { name: 'Hakan Çalhanoğlu', stars: 2 },
+    { name: 'Arda Güler',       stars: 2 },
+    { name: 'Kenan Yıldız',     stars: 1 },
+    { name: 'Merih Demiral',    stars: 0 },
   ],
-  KOR: [
-    { name: 'Son',         stars: 2 },
-    { name: 'Lee Kang-in', stars: 1 },
-    { name: 'Kim Min-jae', stars: 1 },
+  SUI: [
+    { name: 'Granit Xhaka',  stars: 0 },
+    { name: 'Breel Embolo',  stars: 0 },
   ],
-  SWE: [
-    { name: 'Isak',      stars: 2 },
-    { name: 'Kulusevski',stars: 1 },
-    { name: 'Forsberg',  stars: 0 },
-  ],
-  AUS: [
-    { name: 'Leckie', stars: 0 },
-    { name: 'Irvine', stars: 0 },
-  ],
-  CAN: [
-    { name: 'David',    stars: 1 },
-    { name: 'Buchanan', stars: 1 },
-    { name: 'Larin',    stars: 0 },
-  ],
-  EGY: [
-    { name: 'Salah',     stars: 3 },
-    { name: 'Trezeguet', stars: 0 },
-  ],
-  CZE: [
-    { name: 'Schick',  stars: 1 },
-    { name: 'Souček',  stars: 1 },
-  ],
-  ALG: [
-    { name: 'Bennacer',   stars: 1 },
-    { name: 'Bensebaini', stars: 1 },
+  ECU: [
+    { name: 'Moisés Caicedo',   stars: 2 },
+    { name: 'Willian Pachó',    stars: 2 },
+    { name: 'Piero Hincapié',   stars: 1 },
+    { name: 'Pervis Estupiñán', stars: 1 },
+    { name: 'Enner Valencia',   stars: 0 },
   ],
   AUT: [
-    { name: 'Arnautović', stars: 1 },
-    { name: 'Sabitzer',   stars: 1 },
-    { name: 'Alaba',      stars: 1 },
+    { name: 'David Alaba',           stars: 2 },
+    { name: 'Konrad Laimer',         stars: 1 },
+    { name: 'Marcel Sabitzer',       stars: 0 },
+    { name: 'Christoph Baumgartner', stars: 0 },
   ],
-  IRN: [
-    { name: 'Taremi',       stars: 1 },
-    { name: 'Jahanbakhsh',  stars: 0 },
+  SWE: [
+    { name: 'Viktor Gyökeres',  stars: 3 },
+    { name: 'Alexander Isak',   stars: 2 },
+    { name: 'Anthony Elanga',   stars: 0 },
+    { name: 'Victor Lindelöf',  stars: 0 },
   ],
-  SCO: [
-    { name: 'Robertson',  stars: 1 },
-    { name: 'McTominay',  stars: 1 },
-  ],
-  BIH: [
-    { name: 'Džeko',   stars: 1 },
-    { name: 'Pjanić',  stars: 1 },
+  CAN: [
+    { name: 'Alphonso Davies',   stars: 2 },
+    { name: 'Jonathan David',    stars: 1 },
+    { name: 'Tajon Buchanan',    stars: 0 },
+    { name: 'Stephen Eustáquio', stars: 0 },
   ],
   CIV: [
-    { name: 'Zaha',   stars: 1 },
-    { name: 'Pépé',   stars: 0 },
+    { name: 'Amad Diallo',  stars: 1 },
+    { name: 'Franck Kessié',stars: 1 },
+    { name: 'Yan Diomande', stars: 0 },
+    { name: 'Seko Fofana',  stars: 0 },
   ],
-  GHA: [
-    { name: 'T. Partey', stars: 1 },
-    { name: 'J. Ayew',   stars: 0 },
+  BIH: [
+    { name: 'Edin Džeko',        stars: 1 },
+    { name: 'Ermedin Demirović', stars: 1 },
+    { name: 'Amar Dedić',        stars: 0 },
   ],
-  KSA: [
-    { name: 'Al-Dawsari', stars: 0 },
+  EGY: [
+    { name: 'Mohamed Salah',     stars: 3 },
+    { name: 'Omar Marmoush',     stars: 1 },
+    { name: 'Mahmoud Trezeguet', stars: 0 },
   ],
-  QAT: [
-    { name: 'Al-Moez Ali', stars: 0 },
+  CZE: [
+    { name: 'Patrik Schick',   stars: 2 },
+    { name: 'Tomáš Souček',    stars: 1 },
+    { name: 'Ladislav Krejčí', stars: 0 },
   ],
-  CPV: [
-    { name: 'Tavares', stars: 0 },
+  KOR: [
+    { name: 'Son Heung-min',  stars: 3 },
+    { name: 'Kim Min-jae',    stars: 1 },
+    { name: 'Lee Kang-in',    stars: 1 },
+    { name: 'Hwang Hee-chan', stars: 0 },
+    { name: 'Hwang In-beom',  stars: 0 },
   ],
   PAR: [
-    { name: 'Sanabria', stars: 0 },
+    { name: 'Miguel Almirón', stars: 1 },
+    { name: 'Diego Gómez',   stars: 0 },
+    { name: 'Julio Enciso',  stars: 0 },
   ],
-  PAN: [
-    { name: 'Davis', stars: 0 },
+  SCO: [
+    { name: 'Andy Robertson',  stars: 1 },
+    { name: 'Scott McTominay', stars: 1 },
+    { name: 'John McGinn',     stars: 0 },
+    { name: 'Kieran Tierney',  stars: 0 },
+  ],
+  GHA: [
+    { name: 'Antoine Semenyo', stars: 1 },
+    { name: 'Thomas Partey',   stars: 1 },
+    { name: 'Jordan Ayew',     stars: 0 },
+  ],
+  ALG: [
+    { name: 'Riyad Mahrez',           stars: 2 },
+    { name: 'Mohamed Amine Amoura',   stars: 0 },
+    { name: 'Aminory Irankunda',      stars: 0 },
+  ],
+  AUS: [
+    { name: 'Cristian Volpato', stars: 0 },
+    { name: 'Mathew Leckie',    stars: 0 },
   ],
   HAI: [
-    { name: 'Nazon', stars: 0 },
+    { name: 'Duckens Nazon',       stars: 0 },
+    { name: 'Jean-Ricner Bellegarde', stars: 0 },
+    { name: 'Wilson Isidor',       stars: 0 },
   ],
-  CUW: [
-    { name: 'A. Adams', stars: 0 },
-  ],
-  NZL: [
-    { name: 'Wood', stars: 0 },
-  ],
-  UZB: [
-    { name: 'Shomurodov', stars: 0 },
-  ],
-  JOR: [
-    { name: 'Al-Tamari', stars: 0 },
+  IRN: [
+    { name: 'Mehdi Taremi',       stars: 1 },
+    { name: 'Alireza Jahanbakhsh',stars: 0 },
+    { name: 'Saman Ghoddos',      stars: 0 },
   ],
   COD: [
-    { name: 'Mbokani', stars: 0 },
+    { name: 'Yoane Wissa',       stars: 1 },
+    { name: 'Aaron Wan-Bissaka', stars: 1 },
+    { name: 'Chancel Mbemba',    stars: 0 },
   ],
   IRQ: [
-    { name: 'Amjad Attwan', stars: 0 },
+    { name: 'Aymen Hussein',  stars: 0 },
+    { name: 'Ali Al-Hamadi',  stars: 0 },
+  ],
+  CPV: [
+    { name: 'Jovane Cabral', stars: 0 },
+    { name: 'Logan Costa',   stars: 0 },
+  ],
+  JOR: [
+    { name: 'Musa Al-Taamari',  stars: 1 },
+    { name: 'Yazan Al-Naimat',  stars: 0 },
+  ],
+  CUW: [
+    { name: 'Tahith Chong', stars: 0 },
+  ],
+  NZL: [
+    { name: 'Chris Wood', stars: 1 },
+  ],
+  PAN: [
+    { name: 'Adalberto Carrasquilla', stars: 0 },
+    { name: 'Ismael Díaz',            stars: 0 },
+  ],
+  QAT: [
+    { name: 'Akram Afif',  stars: 1 },
+    { name: 'Almoez Ali',  stars: 0 },
   ],
   RSA: [
-    { name: 'Tau',   stars: 0 },
-    { name: 'Zwane', stars: 0 },
+    { name: 'Lyle Foster',  stars: 1 },
+    { name: 'Themba Zwane', stars: 0 },
+  ],
+  KSA: [
+    { name: 'Salem Al-Dawsari',  stars: 1 },
+    { name: 'Mohammed Kanno',    stars: 0 },
   ],
   TUN: [
-    { name: 'Msakni', stars: 0 },
+    { name: 'Hannibal Mejbri', stars: 1 },
+  ],
+  UZB: [
+    { name: 'Abdukodir Khusanov', stars: 1 },
+    { name: 'Eldor Shomurodov',   stars: 0 },
   ],
 }
 
@@ -312,11 +363,11 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
       >
         {/* Header — name + price inline */}
         <div className="px-5 pt-5 pb-4 flex items-start gap-3">
-          <FlagImage code={team.code} name={team.name} size={44} outlined className="shrink-0 mt-0.5" />
+          <WavingFlagImage code={team.code} name={team.name} size={80} />
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline justify-between gap-2">
-              <h2 className="text-lg font-bold text-white leading-tight truncate uppercase">
-                {team.name} <span className="text-[#555] font-semibold text-sm">({team.code})</span>
+              <h2 className="text-lg font-bold text-white leading-tight break-words uppercase">
+                {team.name} <span className="text-[#6b5c4e] font-semibold text-sm">({team.code})</span>
               </h2>
               <span className="text-xl font-bold text-[#eeb22d] shrink-0">{team.draft_value}¢</span>
             </div>
@@ -326,11 +377,11 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         {/* FIFA rank + continent */}
         <div className="border-t border-white/[0.08] px-5 py-3 flex items-center justify-between">
           <div>
-            <p className="text-xs text-[#555] mb-0.5">FIFA Rank</p>
+            <p className="text-xs text-[#6b5c4e] mb-0.5">FIFA Rank</p>
             <p className="text-lg font-bold text-white">#{team.fifa_rank}</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-[#555] mb-0.5">Confederation</p>
+            <p className="text-xs text-[#6b5c4e] mb-0.5">Confederation</p>
             <p className="text-sm font-semibold text-white">{continent}</p>
           </div>
         </div>
@@ -338,7 +389,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         {/* Group + groupmates */}
         <div className="border-t border-white/[0.08] px-5 py-3">
           <div className="flex items-start justify-between">
-            <span className="text-xs text-[#555]">Group {groupLetter}</span>
+            <span className="text-xs text-[#6b5c4e]">Group {groupLetter}</span>
             <div className="flex gap-4">
               {groupMates.map(t => (
                 <div key={t.id} className="flex flex-col items-center gap-1">
@@ -352,14 +403,14 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
 
         {/* Manager */}
         <div className="border-t border-white/[0.08] px-5 py-3 flex items-center justify-between">
-          <p className="text-xs text-[#555]">Manager</p>
+          <p className="text-xs text-[#6b5c4e]">Manager</p>
           <p className="text-sm font-semibold text-white text-right">{manager}</p>
         </div>
 
         {/* Star players */}
         {players.length > 0 && (
           <div className="border-t border-white/[0.08] px-5 py-3">
-            <p className="text-xs text-[#555] mb-2">Star Players</p>
+            <p className="text-xs text-[#6b5c4e] mb-2">Players</p>
             <div className="space-y-2">
               {players.map(p => (
                 <div key={p.name} className="flex items-center gap-2.5">
@@ -375,7 +426,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         <div className="border-t border-white/[0.08] px-5 py-4">
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl border border-white/[0.12] text-sm font-bold text-[#555] hover:bg-white/[0.05] transition-colors uppercase"
+            className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase"
           >
             Close
           </button>

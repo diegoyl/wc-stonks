@@ -10,8 +10,8 @@ import { loadDraftSubmission, saveDraftSubmission } from '@/lib/supabase'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const BUDGET = 100
-const MAX_PER_TEAM = 40
+const BUDGET = 200
+const MAX_PER_TEAM = 80
 
 const SORTED_TEAMS = [...DRAFT_TEAMS].sort((a, b) =>
   b.draft_value - a.draft_value || a.fifa_rank - b.fifa_rank
@@ -92,11 +92,9 @@ function SuccessScreen({ playerName }: { playerName: string }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#18110D]">
       <div className="text-center">
-        <div className="text-5xl mb-4">⚽</div>
+        <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain mx-auto mb-4" style={{ imageRendering: 'pixelated' }} />
         <h1 className="text-2xl font-bold text-white mb-2">Draft Submitted!</h1>
-        <p className="text-[#666] text-sm">
-          <span className="uppercase">{playerName}</span>&apos;s picks are locked in. Good luck!
-        </p>
+        <p className="text-[#7a6a5a] text-sm">Resubmit form to make changes</p>
       </div>
     </div>
   )
@@ -108,8 +106,7 @@ function PlayerPicker({ onSelect }: { onSelect: (id: string) => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
-        <h2 className="text-lg font-bold text-white mb-1">Who are you?</h2>
-        <p className="text-sm text-[#666] mb-5">Select your profile to begin drafting.</p>
+        <h2 className="text-lg font-bold text-white mb-4">Who are you?</h2>
         <div className="space-y-2">
           {PLAYERS.map(p => (
             <button
@@ -129,24 +126,32 @@ function PlayerPicker({ onSelect }: { onSelect: (id: string) => void }) {
 // ─── Bets popup ───────────────────────────────────────────────────────────────
 
 const BONUS_PRIZE_DETAILS: Record<string, string | null> = {
-  'Goals Scored (GS)':          'Team that scores most goals during group stage',
-  'Goals Conceded (Group Stage)':        'Team that concedes the most goals during group stage',
-  'Golden Boot':        'Team whose player scores most goals in tournament',
-  'Golden Glove':       'Team whose goalie wins best goalie of the tournament',
-  'Top European Team':          'Highest-finishing team from UEFA (Europe)',
-  'Top Americas Team (N+S)':    'Highest-finishing team from CONCACAF or CONMEBOL (North/Central/South America)',
-  'Top African Team':           'Highest-finishing team from CAF (Africa)',
-  'Top Asian/Oceania Team':     'Highest-finishing team from AFC or OFC (Asia or Oceania)',
-  'Biggest Upset':              'Team with the biggest upset win, determined by match odds',
-  'Earliest Goal':       'Team whose player scores the earliest goal in any match. Determined by goal minute, not date.',
-  'Biggest Margin of Victory':  'Team that wins a match by the largest goal difference.',
-  'Biggest Margin of Defeat':   'Team that loses a match by the largest goal difference.',
-  'Worst Team': 'Team that finishes the group stage with the fewest points. Tiebreakers: Goal Differential, Goals Scored',
-  'Most Red Cards':             'Team that receives the most red cards across the entire tournament.',
-  'Most Yellow Cards':          'Team that receives the most yellow cards across the entire tournament.',
-  'Most Own Goals':             'Team who scores the most own goals across the entire tournament.',
-  'Hat Trick':                  "Each time a team's player scores 3+ goals in a single match.",
-  'David In Attendance':    "Awarded to both teams if David is in the stadium during the match",
+  // Goals (Group Stage)
+  'Most Scored':    'Team that scores the most goals during the group stage',
+  'Least Scored':   'Team that scores the fewest goals during the group stage',
+  'Most Conceded':  'Team that concedes the most goals during the group stage',
+  'Least Conceded': 'Team that concedes the fewest goals during the group stage',
+  'Most Own Goals': 'Team who scores the most own goals across the entire tournament',
+  'Earliest Goal':  'Team whose player scores the earliest goal in any match. Determined by goal minute, not date.',
+  // Top Teams (Regions)
+  'Europe':               'Highest-finishing team from UEFA (Europe)',
+  'North & South America':'Highest-finishing team from CONCACAF or CONMEBOL (North/Central/South America)',
+  'Africa':               'Highest-finishing team from CAF (Africa)',
+  'Asian & Oceania':      'Highest-finishing team from AFC or OFC (Asia or Oceania)',
+  // Match Results
+  'Biggest Margin of Victory': 'Team that wins a match by the largest goal difference',
+  'Biggest Margin of Defeat':  'Team that loses a match by the largest goal difference',
+  'Biggest Upset':     'Team with the biggest upset win, determined by match odds',
+  // Other
+  'Golden Boot':           'Team whose player scores the most goals in the tournament',
+  'Golden Glove':          'Team whose goalkeeper wins best goalkeeper of the tournament',
+  'Goal of the Tournament': null,
+  'Worst Team':    'Team that finishes the group stage with the fewest points. Tiebreakers: Goal Differential, Goals Scored',
+  'Most Red Cards':    'Team that receives the most red cards across the entire tournament',
+  'Most Yellow Cards': 'Team that receives the most yellow cards across the entire tournament',
+  // Per Occurrence
+  'Hat Trick':          "Each time a team's player scores 3+ goals in a single match",
+  'David In Attendance':"Awarded to both teams if David is in the stadium during the match",
 }
 
 
@@ -161,7 +166,7 @@ function PrizeRow({ id, label, payout, detail, expanded, onToggle }: {
   const canExpand = !!detail
   const payoutEl = payout != null
     ? <span className="text-sm font-bold text-[#eeb22d]">{payout}¢</span>
-    : <span className="text-sm text-[#444]">TBD</span>
+    : <span className="text-sm text-[#5a4a3c]">TBD</span>
 
   return (
     <div>
@@ -178,7 +183,7 @@ function PrizeRow({ id, label, payout, detail, expanded, onToggle }: {
         </div>
       )}
       {expanded && detail && (
-        <p className="text-xs text-[#666] leading-relaxed pb-1.5">{detail}</p>
+        <p className="text-xs text-[#7a6a5a] leading-relaxed pb-1.5">{detail}</p>
       )}
     </div>
   )
@@ -202,65 +207,74 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
       <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm max-h-[85vh] flex flex-col normal-case tracking-normal" onClick={e => e.stopPropagation()}>
         <div className="overflow-y-auto flex-1">
         <div className="px-5 pt-5 pb-3">
-          <h2 className="text-lg font-bold text-white uppercase">Prizes</h2>
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="text-lg font-bold text-white uppercase">Prizes</h2>
+            <p className="text-lg font-bold"><span className="text-[#6bcb69]">$1</span> = <span className="text-[#eeb22d]">10¢</span></p>
+          </div>
           <p className="text-xs text-white/50 mt-1.5 leading-relaxed normal-case">
-            Teams earn prizes by winning matches or bonus prizes. If you own multiple shares, you get prize × share count.
+          Teams earn prizes by winning matches or bonus prizes. If you own multiple shares, you win <span className="text-[#eeb22d]">prize × share count</span>
           </p>
-          <p className="text-xs text-[#eeb22d] mt-1.5 font-semibold">5¢ = <span className="text-[#6bcb69]">$1</span></p>
         </div>
 
+        <div className="border-t border-white/[0.08] px-5 py-2">
+          <p className="text-sm font-bold text-white uppercase text-center">Main Prizes</p>
+        </div>
         <div className="border-t border-white/[0.08] px-5 py-3">
-          <p className="text-xs text-[#555] mb-2 uppercase">Main Prizes</p>
-          <div>
-            {MAIN_POT_RULES.map(r => (
-              <PrizeRow key={r.id} id={r.id} label={r.label} payout={r.payout} detail={null} expanded={false} onToggle={() => {}} />
-            ))}
-          </div>
+          {MAIN_POT_RULES.map(r => (
+            <PrizeRow key={r.id} id={r.id} label={r.label} payout={r.payout} detail={null} expanded={false} onToggle={() => {}} />
+          ))}
         </div>
 
-        <div className="border-t border-white/[0.08] px-5 py-3">
-          <p className="text-xs text-[#555] mb-0.5 uppercase">Bonus Prizes</p>
-          <p className="text-[10px] text-[#444] mb-1 uppercase">1 winner (unless ties)</p>
-          <div>
-            {([
-              ['Goals Scored (GS)',           20],
-              ['Goals Conceded (Group Stage)', 20],
-              ['Golden Boot',                  20],
-              ['Golden Glove',                 20],
-              ['Top European Team',            20],
-              ['Top Americas Team (N+S)',       20],
-              ['Top African Team',             25],
-              ['Top Asian/Oceania Team',       25],
-              ['Biggest Upset',               30],
-              ['Earliest Goal',                10],
-              ['Biggest Margin of Victory',    10],
-              ['Biggest Margin of Defeat',     10],
-              ['Worst Team',                   30],
-              ['Most Red Cards',               20],
-              ['Most Yellow Cards',            20],
-              ['Most Own Goals',               20],
-            ] as [string, number | null][]).map(([name, payout]) => (
-              <PrizeRow key={name} id={name} label={name} payout={payout} detail={BONUS_PRIZE_DETAILS[name]} expanded={expanded === name} onToggle={() => toggle(name)} />
-            ))}
-          </div>
+        <div className="border-t border-white/[0.08] px-5 py-2">
+          <p className="text-sm font-bold text-white uppercase text-center">Bonus Prizes</p>
         </div>
 
-        <div className="border-t border-white/[0.08] px-5 py-3">
-          <p className="text-xs text-[#555] mb-0.5 uppercase">Bonus Prizes</p>
-          <p className="text-[10px] text-[#444] mb-1 uppercase">per occurrence</p>
-          <div>
-            {([
-              ['Hat Trick',            10],
-              ['David In Attendance',  20],
-            ] as [string, number | null][]).map(([name, payout]) => (
-              <PrizeRow key={name} id={name} label={name} payout={payout} detail={BONUS_PRIZE_DETAILS[name]} expanded={expanded === name} onToggle={() => toggle(name)} />
-            ))}
+        {([
+          ['Goals (Group Stage)', [
+            ['Most Scored',    20],
+            ['Least Scored',   20],
+            ['Most Conceded',  20],
+            ['Least Conceded', 20],
+            ['Most Own Goals', 15],
+            ['Earliest Goal',  10],
+          ]],
+          ['Top Teams (Regions)', [
+            ['Europe',                15],
+            ['North & South America', 15],
+            ['Africa',                25],
+            ['Asian & Oceania',       25],
+          ]],
+          ['Match Results', [
+            ['Biggest Margin of Victory', 10],
+            ['Biggest Margin of Defeat',  10],
+            ['Biggest Upset',     25],
+          ]],
+          ['Other', [
+            ['Golden Boot',            15],
+            ['Golden Glove',           15],
+            ['Goal of the Tournament', 15],
+            ['Worst Team',             25],
+            ['Most Red Cards',         20],
+            ['Most Yellow Cards',      15],
+          ]],
+          ['Per Occurrence', [
+            ['Hat Trick',           10],
+            ['David In Attendance', 20],
+          ]],
+        ] as [string, [string, number][]][]).map(([category, prizes]) => (
+          <div key={category} className="border-t border-white/[0.08] px-5 py-3">
+            <p className="text-xs text-[#6b5c4e] mb-1.5 uppercase">{category}</p>
+            <div>
+              {prizes.map(([name, payout]) => (
+                <PrizeRow key={name} id={name} label={name} payout={payout} detail={BONUS_PRIZE_DETAILS[name]} expanded={expanded === name} onToggle={() => toggle(name)} />
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
 
         </div>{/* end scrollable */}
         <div className="border-t border-white/[0.08] px-5 py-4 shrink-0">
-          <button onClick={onClose} className="w-full py-2.5 rounded-xl border border-white/[0.12] text-sm font-bold text-white hover:bg-white/[0.05] transition-colors uppercase">
+          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase">
             Close
           </button>
         </div>
@@ -280,6 +294,8 @@ export default function DraftPage() {
   const [betsOpen, setBetsOpen] = useState(false)
   const [instructionsVisible, setInstructionsVisible] = useState(true)
   const instructionsRef = useRef<HTMLDivElement>(null)
+  const [tableHeaderSticky, setTableHeaderSticky] = useState(false)
+  const tableSentinelRef = useRef<HTMLDivElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -290,6 +306,17 @@ export default function DraftPage() {
     const el = instructionsRef.current
     if (!el) return
     const observer = new IntersectionObserver(([entry]) => setInstructionsVisible(entry.isIntersecting), { threshold: 0 })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [loading])
+
+  useEffect(() => {
+    const el = tableSentinelRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setTableHeaderSticky(!entry.isIntersecting),
+      { rootMargin: '-56px 0px 0px 0px', threshold: 0 }
+    )
     observer.observe(el)
     return () => observer.disconnect()
   }, [loading])
@@ -385,7 +412,7 @@ export default function DraftPage() {
             className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-colors uppercase ${
               canSubmit
                 ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
-                : 'bg-white/[0.06] text-[#555] cursor-not-allowed'
+                : 'bg-white/[0.06] text-[#6b5c4e] cursor-not-allowed'
             }`}
           >
             Submit
@@ -398,7 +425,7 @@ export default function DraftPage() {
         {loading && (
           <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 pointer-events-none">
             <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain" style={{ imageRendering: 'pixelated' }} />
-            <p className="text-[#555] text-sm">Loading draft…</p>
+            <p className="text-[#6b5c4e] text-sm">Loading draft…</p>
           </div>
         )}
 
@@ -411,30 +438,34 @@ export default function DraftPage() {
                   <span className="text-2xl font-bold text-white uppercase">{playerName}</span>
                   <button
                     onClick={() => setPickerOpen(true)}
-                    className="px-2.5 py-1 rounded-lg text-xs font-semibold text-[#555] bg-white/[0.05] hover:bg-white/[0.08] hover:text-[#888] transition-colors uppercase"
+                    className="px-2.5 py-1 rounded-lg text-xs font-semibold text-[#6b5c4e] bg-white/[0.05] hover:bg-white/[0.08] hover:text-[#888] transition-colors uppercase"
                   >
                     Change User
                   </button>
                 </div>
               )}
-              <p className="text-xs text-white/60 leading-relaxed">
-                <span className="text-[#6bcb69]">$20</span> buy-in gives you <span className="text-[#eeb22d] font-semibold">100¢</span> to spend on teams · buy up to <span className="text-[#eeb22d] font-semibold">40¢</span> per team, multiple shares allowed · win money back when your teams earn prizes · press a team name for more info
-              </p>
+              <ul className="text-xs text-white/60 leading-relaxed space-y-0.5 list-disc list-inside">
+<li><span className="text-[#6bcb69]">$20</span> buy-in = <span className="text-[#eeb22d] font-semibold">100 coins(¢)</span> for buying teams</li>
+<li>buy multiple shares, up to <span className="text-[#eeb22d] font-semibold">40¢</span> per team</li>
+<li>win <span className="text-[#eeb22d] font-semibold">COINS</span> when your teams earn prizes</li>
+<li>press a team name for more info</li>
+</ul>
               <button
                 onClick={() => setBetsOpen(true)}
-                className="mt-2 px-2.5 py-1 rounded-lg text-xs font-semibold text-[#3d1f0a] bg-[#c9bba9] hover:bg-[#c9bba9]/90 transition-colors uppercase"
+                className="my-3 px-2.5 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
               >
                 See Prizes
               </button>
             </div>
 
+            <div ref={tableSentinelRef} style={{ height: 0 }} />
             <div className="bg-[#18110D] border-y border-white/[0.08]">
               <table className="w-full text-sm">
-                <thead className="sticky top-14 z-30 bg-[#c9bba9]">
+                <thead className={`sticky top-14 z-30 transition-colors ${tableHeaderSticky ? 'bg-[#c9bba9]' : 'bg-[#18110D]'}`}>
                   <tr>
-                    <th className="text-left px-2 py-2 text-[#3d1f0a] font-medium">Team</th>
-                    <th className="text-right px-2 py-2 text-[#3d1f0a] font-medium">Price</th>
-                    <th className="text-right px-2 py-2 text-[#3d1f0a] font-medium">Shares</th>
+                    <th className={`text-left px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Team</th>
+                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Price</th>
+                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Shares</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -461,27 +492,27 @@ export default function DraftPage() {
                           <button
                             disabled={!canDec}
                             onClick={() => adjustShares(team.id, -1, maxShares)}
-                            className={`w-7 h-7 rounded-lg text-base font-bold transition-colors flex items-center justify-center ${
+                            className={`w-7 h-7 rounded-md text-base font-bold transition-colors flex items-center justify-center ${
                               canDec
                                 ? 'bg-white/[0.08] text-white hover:bg-white/[0.14]'
                                 : 'bg-white/[0.03] text-[#333] cursor-not-allowed'
                             }`}
                           >
-                            −
+                            <span className="relative" style={{ top: '-2.4px', left: '1px' }}>−</span>
                           </button>
-                          <span className={`w-5 text-center font-bold ${cur > 0 ? 'text-white' : 'text-[#444]'}`}>
+                          <span className={`w-5 text-center font-bold ${cur > 0 ? 'text-white' : 'text-[#5a4a3c]'}`}>
                             {cur}
                           </span>
                           <button
                             disabled={!canInc}
                             onClick={() => adjustShares(team.id, 1, maxShares)}
-                            className={`w-7 h-7 rounded-lg text-base font-bold transition-colors flex items-center justify-center ${
+                            className={`w-7 h-7 rounded-md text-base font-bold transition-colors flex items-center justify-center ${
                               canInc
                                 ? 'bg-white/[0.08] text-white hover:bg-white/[0.14]'
                                 : 'bg-white/[0.03] text-[#333] cursor-not-allowed'
                             }`}
                           >
-                            +
+                            <span className="relative" style={{ top: '-2.4px', left: '1px' }}>+</span>
                           </button>
                         </div>
                       </td>
@@ -500,7 +531,7 @@ export default function DraftPage() {
               className={`px-8 py-3 rounded-xl text-sm font-bold transition-colors uppercase ${
                 canSubmit
                   ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
-                  : 'bg-white/[0.06] text-[#555] cursor-not-allowed'
+                  : 'bg-white/[0.06] text-[#6b5c4e] cursor-not-allowed'
               }`}
             >
               Submit Draft
@@ -518,19 +549,19 @@ export default function DraftPage() {
             <p className={`text-3xl font-bold transition-colors duration-150 ${budgetColor}`}>
               {displayRemaining}¢
             </p>
-            <p className="text-xs text-[#555] mt-0.5">Budget</p>
+            <p className="text-xs text-[#6b5c4e] mt-0.5">Budget</p>
           </div>
           <div className={`absolute left-1/2 -translate-x-1/2 transition-opacity duration-300 ${instructionsVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <button
               onClick={() => setBetsOpen(true)}
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-[#3d1f0a] bg-[#c9bba9] hover:bg-[#c9bba9]/90 transition-colors uppercase"
+              className="px-3 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
             >
               See Prizes
             </button>
           </div>
           <div className="text-right">
             <p className="text-3xl font-bold text-white">{teamCount}</p>
-            <p className="text-xs text-[#555] mt-0.5">Teams</p>
+            <p className="text-xs text-[#6b5c4e] mt-0.5">Teams</p>
           </div>
         </div>
       </div>
