@@ -14,7 +14,7 @@ const CHART_STYLE = {
   grid: 'rgba(255,255,255,0.05)',
   tick: '#555' as const,
   tooltip: {
-    contentStyle: { background: '#1c1c1c', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
+    contentStyle: { background: '#18110D', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
     labelStyle: { color: '#888' },
   },
 }
@@ -92,7 +92,7 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={onClose}>
       <div
-        className="bg-[#141414] border border-white/[0.08] rounded-2xl shadow-2xl p-5 w-full max-w-md max-h-[90vh] flex flex-col"
+        className="bg-[#18110D] border border-white/[0.08] rounded-2xl shadow-2xl p-5 w-full max-w-md max-h-[90vh] flex flex-col"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -135,7 +135,7 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
         {/* Holdings table */}
         <div className="overflow-y-auto min-h-0" style={{ maxHeight: 220 }}>
           <table className="w-full text-sm">
-            <thead className="sticky top-0 bg-[#141414]">
+            <thead className="sticky top-0 bg-[#18110D]">
               <tr className="border-b border-white/[0.08]">
                 <th className="text-left py-2 text-[#666] font-medium">Team</th>
                 <SortTh label="Shares"    active={sortCol === 'shares'}    dir={sortDir} onClick={() => handleSort('shares')} />

@@ -16,7 +16,7 @@ import {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const TEAM_COLORS = [
-  '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6',
+  '#10b981', '#3b82f6', '#eeb22d', '#ef4444', '#8b5cf6',
   '#06b6d4', '#f97316', '#84cc16', '#ec4899', '#6366f1',
   '#14b8a6', '#f43f5e', '#a855f7', '#0ea5e9',
 ]
@@ -36,7 +36,7 @@ const CHART_STYLE = {
   grid: 'rgba(255,255,255,0.05)',
   tick: '#555' as const,
   tooltip: {
-    contentStyle: { background: '#1c1c1c', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
+    contentStyle: { background: '#18110D', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
     labelStyle: { color: '#888' },
   },
 }
@@ -51,7 +51,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
       <button
         onClick={() => onChange('actual')}
         className={`px-3 py-1.5 text-xs font-semibold transition-colors ${
-          mode === 'actual' ? 'bg-white text-black' : 'bg-transparent text-[#666] hover:text-[#999]'
+          mode === 'actual' ? 'bg-[#c9bba9] text-[#3d1f0a]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
         Actual
@@ -59,7 +59,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
       <button
         onClick={() => onChange('market')}
         className={`px-3 py-1.5 text-xs font-semibold border-l border-white/[0.12] transition-colors ${
-          mode === 'market' ? 'bg-white text-black' : 'bg-transparent text-[#666] hover:text-[#999]'
+          mode === 'market' ? 'bg-[#c9bba9] text-[#3d1f0a]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
         Market
@@ -151,7 +151,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
     <div>
       <h2 className="text-xl font-bold text-white mb-4">Standings</h2>
 
-      <div className="bg-[#141414] rounded-xl border border-white/[0.08] p-3 mb-4">
+      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5 flex-1 min-w-0">
             {entries.map(entry => {
@@ -207,7 +207,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
         )}
       </div>
 
-      <div className="bg-[#141414] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[280px]">
             <thead>
@@ -327,7 +327,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
     <div>
       <h2 className="text-xl font-bold text-white mb-4">Teams</h2>
 
-      <div className="bg-[#141414] rounded-xl border border-white/[0.08] p-3 mb-4">
+      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5 flex-1 min-w-0">
             {teamsDesc.filter(t => t.current_value > 0).map(team => {
@@ -384,7 +384,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
         )}
       </div>
 
-      <div className="bg-[#141414] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[320px]">
             <thead>

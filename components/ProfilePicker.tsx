@@ -20,7 +20,7 @@ export default function ProfilePicker() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
-      <div className="bg-[#141414] rounded-2xl border border-white/[0.08] shadow-2xl px-5 py-6 w-full max-w-sm">
+      <div className="bg-[#18110D] rounded-2xl border border-white/[0.08] shadow-2xl px-5 py-6 w-full max-w-sm">
         <h2 className="text-xl font-bold text-white mb-1">Who are you?</h2>
         <p className="text-[#888] text-sm mb-5">Select your profile.</p>
 

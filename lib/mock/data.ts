@@ -84,13 +84,13 @@ export const HOLDINGS: Holding[] = [
 export const MAIN_POT_RULES: MainPotRule[] = [
   { id: 'rule-gw',    rule_key: 'group_win',    label: 'Group Stage Win',      payout:   3, sort_order: 1 },
   { id: 'rule-gd',    rule_key: 'group_draw',   label: 'Group Stage Draw',     payout:   1, sort_order: 2 },
-  { id: 'rule-ga',    rule_key: 'group_advance',label: 'Group Stage Advance',  payout:   3, sort_order: 3 },
+  { id: 'rule-ga',    rule_key: 'group_advance',label: 'Advance from Group Stage',  payout:   3, sort_order: 3 },
   { id: 'rule-r32',   rule_key: 'r32',          label: 'Win Round of 32',      payout:   6, sort_order: 4 },
   { id: 'rule-r16',   rule_key: 'r16',          label: 'Win Round of 16',      payout:  12, sort_order: 5 },
   { id: 'rule-qf',    rule_key: 'qf',           label: 'Win Quarterfinal',     payout:  24, sort_order: 6 },
   { id: 'rule-sf',    rule_key: 'sf',           label: 'Win Semifinal',        payout:  50, sort_order: 7 },
   { id: 'rule-3rd',   rule_key: 'third_place',  label: 'Win 3rd Place Match',  payout:  15, sort_order: 8 },
-  { id: 'rule-final', rule_key: 'final_win',    label: 'Win the Final',        payout: 100, sort_order: 9 },
+  { id: 'rule-final', rule_key: 'final_win',    label: 'Win Final',        payout: 100, sort_order: 9 },
 ]
 
 // ─── Side bets ───────────────────────────────────────────────────────────────

@@ -23,7 +23,7 @@ export default function PortfoliosPage() {
           const isMe = entry.player.id === playerId
 
           return (
-            <div key={entry.player.id} className={`rounded-xl border overflow-hidden ${isMe ? 'border-[#00c805]/30' : 'border-white/[0.08]'} bg-[#141414]`}>
+            <div key={entry.player.id} className={`rounded-xl border overflow-hidden ${isMe ? 'border-[#00c805]/30' : 'border-white/[0.08]'} bg-[#18110D]`}>
               {/* Header */}
               <div className={`px-4 py-3 flex items-center justify-between ${isMe ? 'bg-[#00c805]/[0.06]' : 'bg-white/[0.03]'}`}>
                 <Link

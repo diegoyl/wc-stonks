@@ -39,7 +39,7 @@ export default function FlagImage({ code, name, size = 24, className = '', outli
 
   return (
     <span
-      className={`inline-flex bg-white/25 ${className}`}
+      className={`inline-flex bg-white/40 ${className}`}
       style={{ padding: 1.5 }}
     >
       {img}

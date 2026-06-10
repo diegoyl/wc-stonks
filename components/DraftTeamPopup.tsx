@@ -270,7 +270,7 @@ function StarRow({ stars }: { stars: Stars }) {
   return (
     <span className="flex gap-0.5 shrink-0">
       {([0, 1, 2] as const).map(i => (
-        <span key={i} className={`text-sm leading-none ${i < stars ? 'text-amber-400' : 'text-[#2e2e2e]'}`}>
+        <span key={i} className={`text-sm leading-none ${i < stars ? 'text-[#eeb22d]' : 'text-[#2e2e2e]'}`}>
           {i < stars ? '★' : '☆'}
         </span>
       ))}
@@ -307,7 +307,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-[#141414] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-y-auto max-h-[90vh]"
+        className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-y-auto max-h-[90vh]"
         onClick={e => e.stopPropagation()}
       >
         {/* Header — name + price inline */}
@@ -318,7 +318,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
               <h2 className="text-lg font-bold text-white leading-tight truncate uppercase">
                 {team.name} <span className="text-[#555] font-semibold text-sm">({team.code})</span>
               </h2>
-              <span className="text-xl font-bold text-[#f59e0b] shrink-0">{team.draft_value}¢</span>
+              <span className="text-xl font-bold text-[#eeb22d] shrink-0">{team.draft_value}¢</span>
             </div>
           </div>
         </div>

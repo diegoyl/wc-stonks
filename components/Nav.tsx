@@ -57,7 +57,7 @@ export default function Nav() {
   return (
     <>
       {/* ── Top bar ─────────────────────────────────────────────── */}
-      <header className="bg-[#0a0a0a] border-b border-white/[0.08] sticky top-0 z-40">
+      <header className="bg-[#18110D] border-b border-white/[0.08] sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
           <Link href="/main" className="text-white font-bold text-lg tracking-tight shrink-0">
             WC Stonks
@@ -101,7 +101,7 @@ export default function Nav() {
       </header>
 
       {/* ── Mobile bottom tab bar ────────────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0a] border-t border-white/[0.08] flex">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#18110D] border-t border-white/[0.08] flex">
         {TABS.map(tab => {
           const active = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href)
           return (

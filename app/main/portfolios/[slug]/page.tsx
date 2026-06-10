@@ -42,7 +42,7 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
         )}
       </div>
 
-      <div className="bg-[#141414] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[300px]">
             <thead>

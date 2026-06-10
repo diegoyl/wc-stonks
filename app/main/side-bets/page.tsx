@@ -24,7 +24,7 @@ export default function SideBetsPage() {
           const standings = !settled ? getSideBetStandingsForBet(bet.id) : []
 
           return (
-            <div key={bet.id} className="bg-[#141414] rounded-xl border border-white/[0.08] overflow-hidden">
+            <div key={bet.id} className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
               {/* Header */}
               <div className="px-4 py-3 border-b border-white/[0.06]">
                 <div className="flex items-start justify-between gap-3">
@@ -34,7 +34,7 @@ export default function SideBetsPage() {
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                         settled
                           ? 'bg-[#00c805]/15 text-[#00c805]'
-                          : 'bg-amber-500/15 text-amber-400'
+                          : 'bg-[#eeb22d]/10 text-[#eeb22d]'
                       }`}>
                         {settled ? 'Settled' : 'Open'}
                       </span>
@@ -90,7 +90,7 @@ export default function SideBetsPage() {
                         </button>
                         <span className="text-sm text-[#888]">{s.metric_value}</span>
                         {s.rank === 1 && (
-                          <span className="text-xs font-semibold text-amber-400 bg-amber-500/15 px-1.5 py-0.5 rounded-full">
+                          <span className="text-xs font-semibold text-[#eeb22d] bg-[#eeb22d]/10 px-1.5 py-0.5 rounded-full">
                             leader
                           </span>
                         )}
