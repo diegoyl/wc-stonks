@@ -366,10 +366,10 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
           <WavingFlagImage code={team.code} name={team.name} size={80} />
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline justify-between gap-2">
-              <h2 className="text-lg font-bold text-[#ebe0cc] leading-tight break-words uppercase">
-                {team.name} <span className="text-[#6b5c4e] font-semibold text-sm">({team.code})</span>
+              <h2 className="text-lg text-[#ebe0cc] leading-tight break-words uppercase">
+                {team.name} <span className="text-[#6b5c4e] text-sm">({team.code})</span>
               </h2>
-              <span className="text-xl font-bold text-[#eeb22d] shrink-0">{team.draft_value}¢</span>
+              <span className="text-xl text-[#eeb22d] shrink-0">{team.draft_value}¢</span>
             </div>
           </div>
         </div>
@@ -378,11 +378,11 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         <div className="border-t border-white/[0.08] px-5 py-3 flex items-center justify-between">
           <div>
             <p className="text-xs text-[#6b5c4e] mb-0.5">FIFA Rank</p>
-            <p className="text-lg font-bold text-[#ebe0cc]">#{team.fifa_rank}</p>
+            <p className="text-lg text-[#ebe0cc]">#{team.fifa_rank}</p>
           </div>
           <div className="text-right">
             <p className="text-xs text-[#6b5c4e] mb-0.5">Confederation</p>
-            <p className="text-sm font-semibold text-[#ebe0cc]">{continent}</p>
+            <p className="text-sm text-[#ebe0cc]">{continent}</p>
           </div>
         </div>
 
@@ -393,7 +393,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
             <div className="flex gap-4">
               {groupMates.map(t => (
                 <div key={t.id} className="flex flex-col items-center gap-1">
-                  <span className="text-sm font-semibold text-[#ebe0cc]">{t.code}</span>
+                  <span className="text-sm text-[#ebe0cc]">{t.code}</span>
                   <FlagImage code={t.code} name={t.name} size={28} outlined />
                 </div>
               ))}
@@ -404,7 +404,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         {/* Manager */}
         <div className="border-t border-white/[0.08] px-5 py-3 flex items-center justify-between">
           <p className="text-xs text-[#6b5c4e]">Manager</p>
-          <p className="text-sm font-semibold text-[#ebe0cc] text-right">{manager}</p>
+          <p className="text-sm text-[#ebe0cc] text-right">{manager}</p>
         </div>
 
         {/* Star players */}
@@ -426,7 +426,7 @@ export default function DraftTeamPopup({ team, onClose }: Props) {
         <div className="border-t border-white/[0.08] px-5 py-4">
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-lg bg-[#7b7060] text-[#141111] text-sm font-bold hover:bg-[#7b7060]/90 transition-colors uppercase"
+            className="w-full py-2.5 rounded-lg bg-[#7b7060] text-[#141111] text-sm hover:bg-[#7b7060]/90 transition-colors uppercase"
           >
             Close
           </button>

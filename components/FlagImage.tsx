@@ -17,7 +17,7 @@ export default function FlagImage({ code, name, size = 24, className = '', outli
 
   const img = error ? (
     <span
-      className={`inline-flex items-center justify-center bg-gray-200 text-gray-500 text-xs font-bold ${!outlined ? className : ''}`}
+      className={`inline-flex items-center justify-center bg-gray-200 text-gray-500 text-xs ${!outlined ? className : ''}`}
       style={{ width: size, height: Math.round(size * 0.67) }}
     >
       {code}

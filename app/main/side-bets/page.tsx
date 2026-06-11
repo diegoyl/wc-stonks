@@ -15,7 +15,7 @@ export default function SideBetsPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-[#ebe0cc] mb-4">Side Bets</h1>
+      <h1 className="text-xl text-[#ebe0cc] mb-4">Side Bets</h1>
 
       <div className="space-y-4">
         {bets.map(bet => {
@@ -31,7 +31,7 @@ export default function SideBetsPage() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="font-bold text-[#ebe0cc] text-sm">{bet.name}</h2>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
+                      <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${
                         settled
                           ? 'bg-[#00c805]/15 text-[#00c805]'
                           : 'bg-[#eeb22d]/10 text-[#eeb22d]'
@@ -80,7 +80,7 @@ export default function SideBetsPage() {
                     if (!team) return null
                     return (
                       <div key={s.id} className="px-4 py-2.5 flex items-center gap-3">
-                        <span className="text-[#555] font-semibold w-5 text-center text-sm">{s.rank}</span>
+                        <span className="text-[#555] w-5 text-center text-sm">{s.rank}</span>
                         <button
                           className="flex items-center gap-2 flex-1 hover:opacity-80 text-left"
                           onClick={() => setSelectedTeam(team.id)}
@@ -90,7 +90,7 @@ export default function SideBetsPage() {
                         </button>
                         <span className="text-sm text-[#888]">{s.metric_value}</span>
                         {s.rank === 1 && (
-                          <span className="text-xs font-semibold text-[#eeb22d] bg-[#eeb22d]/10 px-1.5 py-0.5 rounded-full">
+                          <span className="text-xs text-[#eeb22d] bg-[#eeb22d]/10 px-1.5 py-0.5 rounded-full">
                             leader
                           </span>
                         )}

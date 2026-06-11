@@ -59,7 +59,7 @@ export default function Nav() {
       {/* ── Top bar ─────────────────────────────────────────────── */}
       <header className="bg-[#141111] border-b border-white/[0.08] sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-          <Link href="/main" className="text-[#ebe0cc] font-bold text-lg tracking-tight shrink-0">
+          <Link href="/main" className="text-[#ebe0cc] text-lg tracking-tight shrink-0">
             WC Stonks
           </Link>
 
@@ -71,7 +71,7 @@ export default function Nav() {
                 <Link
                   key={tab.href}
                   href={tab.href}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                  className={`px-3 py-1.5 rounded-md text-sm whitespace-nowrap transition-colors ${
                     active ? 'bg-white/[0.1] text-[#ebe0cc]' : 'text-[#888] hover:text-[#ebe0cc] hover:bg-white/[0.06]'
                   }`}
                 >
@@ -88,7 +88,7 @@ export default function Nav() {
           >
             {currentPlayer ? (
               <>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[#ebe0cc] font-bold text-xs shrink-0 ${PLAYER_COLORS[currentPlayer.id] ?? 'bg-gray-600'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[#ebe0cc] text-xs shrink-0 ${PLAYER_COLORS[currentPlayer.id] ?? 'bg-gray-600'}`}>
                   {currentPlayer.name[0]}
                 </div>
                 <span className="hidden md:inline text-sm">{currentPlayer.name}</span>
@@ -113,7 +113,7 @@ export default function Nav() {
               }`}
             >
               {tab.icon}
-              <span className="text-[10px] font-medium leading-none">{tab.label}</span>
+              <span className="text-[10px] leading-none">{tab.label}</span>
             </Link>
           )
         })}

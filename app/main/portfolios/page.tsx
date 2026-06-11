@@ -15,7 +15,7 @@ export default function PortfoliosPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-[#ebe0cc] mb-4">Portfolios</h1>
+      <h1 className="text-xl text-[#ebe0cc] mb-4">Portfolios</h1>
 
       <div className="space-y-4">
         {entries.map(entry => {
@@ -31,7 +31,7 @@ export default function PortfoliosPage() {
                   className="font-bold text-[#ebe0cc] flex items-center gap-2"
                 >
                   {entry.player.name}
-                  {isMe && <span className="text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-1.5 py-0.5 rounded-full">you</span>}
+                  {isMe && <span className="text-xs text-[#00c805] bg-[#00c805]/10 px-1.5 py-0.5 rounded-full">you</span>}
                 </Link>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-[#555]">#{entry.rank}</span>
@@ -44,11 +44,11 @@ export default function PortfoliosPage() {
                 <table className="w-full text-sm min-w-[320px]">
                   <thead>
                     <tr className="border-b border-white/[0.06]">
-                      <th className="text-left px-4 py-2 text-[#666] font-medium">Team</th>
-                      <th className="text-right px-3 py-2 text-[#666] font-medium">Sh.</th>
-                      <th className="text-right px-3 py-2 text-[#666] font-medium hidden sm:table-cell">Draft</th>
-                      <th className="text-right px-3 py-2 text-[#666] font-medium hidden sm:table-cell">Value</th>
-                      <th className="text-right px-4 py-2 text-[#666] font-medium">Total</th>
+                      <th className="text-left px-4 py-2 text-[#666]">Team</th>
+                      <th className="text-right px-3 py-2 text-[#666]">Sh.</th>
+                      <th className="text-right px-3 py-2 text-[#666] hidden sm:table-cell">Draft</th>
+                      <th className="text-right px-3 py-2 text-[#666] hidden sm:table-cell">Value</th>
+                      <th className="text-right px-4 py-2 text-[#666]">Total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -66,7 +66,7 @@ export default function PortfoliosPage() {
                         <td className="text-right px-3 py-2.5 text-[#888]">{row.holding.shares}</td>
                         <td className="text-right px-3 py-2.5 text-[#666] hidden sm:table-cell">{formatCoins(row.team.draft_value)}</td>
                         <td className="text-right px-3 py-2.5 text-[#888] hidden sm:table-cell">{formatCoins(row.team.current_value)}</td>
-                        <td className="text-right px-4 py-2.5 font-bold text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
+                        <td className="text-right px-4 py-2.5 text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -21,7 +21,7 @@ export default function ProfilePicker() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
       <div className="bg-[#141111] rounded-2xl border border-white/[0.08] shadow-2xl px-5 py-6 w-full max-w-sm">
-        <h2 className="text-xl font-bold text-[#ebe0cc] mb-1">Who are you?</h2>
+        <h2 className="text-xl text-[#ebe0cc] mb-1">Who are you?</h2>
         <p className="text-[#888] text-sm mb-5">Select your profile.</p>
 
         <div className="grid grid-cols-2 gap-3">
@@ -35,7 +35,7 @@ export default function ProfilePicker() {
                   : 'border-white/[0.1] bg-white/[0.02] hover:border-white/20'
               }`}
             >
-              <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[#ebe0cc] font-bold text-sm shrink-0 ${PLAYER_COLORS[p.id] ?? 'bg-gray-600'}`}>
+              <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[#ebe0cc] text-sm shrink-0 ${PLAYER_COLORS[p.id] ?? 'bg-gray-600'}`}>
                 {p.name[0]}
               </div>
               <span className="font-semibold text-[#ebe0cc] text-sm">{p.name}</span>

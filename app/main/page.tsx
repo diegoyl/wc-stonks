@@ -42,7 +42,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
     <div className="flex border border-white/[0.12] rounded-lg overflow-hidden shrink-0">
       <button
         onClick={() => onChange('actual')}
-        className={`px-3 py-1.5 text-xs font-semibold transition-colors ${
+        className={`px-3 py-1.5 text-xs transition-colors ${
           mode === 'actual' ? 'bg-[#ebe0cc] text-[#141111]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
@@ -50,7 +50,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
       </button>
       <button
         onClick={() => onChange('market')}
-        className={`px-3 py-1.5 text-xs font-semibold border-l border-white/[0.12] transition-colors ${
+        className={`px-3 py-1.5 text-xs border-l border-white/[0.12] transition-colors ${
           mode === 'market' ? 'bg-[#ebe0cc] text-[#141111]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
@@ -65,7 +65,7 @@ function SortTh({
 }: { label: string; active: boolean; onClick: () => void; last?: boolean }) {
   return (
     <th
-      className={`text-right ${last ? 'px-4' : 'px-3'} py-3 font-medium cursor-pointer select-none whitespace-nowrap transition-colors ${
+      className={`text-right ${last ? 'px-4' : 'px-3'} py-3 cursor-pointer select-none whitespace-nowrap transition-colors ${
         active ? 'text-[#ebe0cc]' : 'text-[#555] hover:text-[#888]'
       }`}
       onClick={onClick}
@@ -141,7 +141,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-[#ebe0cc] mb-4">Standings</h2>
+      <h2 className="text-xl text-[#ebe0cc] mb-4">Standings</h2>
 
       <div className="bg-[#141111] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
@@ -153,7 +153,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
                 <button
                   key={entry.player.id}
                   onClick={() => togglePlayer(String(entry.player.id))}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium border shrink-0 transition-all active:scale-95 ${
+                  className={`px-2.5 py-1 rounded-full text-xs border shrink-0 transition-all active:scale-95 ${
                     active ? 'border-transparent text-[#ebe0cc]' : 'border-white/[0.12] text-[#555] bg-transparent'
                   }`}
                   style={active ? { backgroundColor: color, borderColor: color } : {}}
@@ -204,7 +204,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
           <table className="w-full text-sm min-w-[280px]">
             <thead>
               <tr className="border-b border-white/[0.08]">
-                <th className="text-left px-4 py-3 text-[#666] font-medium">Name</th>
+                <th className="text-left px-4 py-3 text-[#666]">Name</th>
                 <SortTh label="Actual" active={sort === 'actual'} onClick={() => setSort('actual')} />
                 <SortTh label="Market" active={sort === 'market'} onClick={() => setSort('market')} last />
               </tr>
@@ -223,17 +223,17 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
                     <td className="px-4 py-3">
                       <span className="font-medium text-[#ebe0cc]">{entry.player.name}</span>
                       {isMe && (
-                        <span className="ml-2 text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-1.5 py-0.5 rounded-full">
+                        <span className="ml-2 text-xs text-[#00c805] bg-[#00c805]/10 px-1.5 py-0.5 rounded-full">
                           you
                         </span>
                       )}
                     </td>
-                    <td className="text-right px-3 py-3 font-semibold text-[#ebe0cc]">
+                    <td className="text-right px-3 py-3 text-[#ebe0cc]">
                       {formatCoins(entry.current_value)}
                     </td>
                     <td className="text-right px-4 py-3">
                       <span className={`font-semibold ${retColor}`}>{formatCoins(entry.projected_value)}</span>
-                      <span className={`ml-1 text-xs font-medium ${retColor}`}>
+                      <span className={`ml-1 text-xs ${retColor}`}>
                         ({retPct >= 0 ? '+' : ''}{retPct.toFixed(0)}%)
                       </span>
                     </td>
@@ -317,7 +317,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-[#ebe0cc] mb-4">Teams</h2>
+      <h2 className="text-xl text-[#ebe0cc] mb-4">Teams</h2>
 
       <div className="bg-[#141111] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
@@ -329,7 +329,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
                 <button
                   key={team.id}
                   onClick={() => toggleTeam(team.id)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium border shrink-0 transition-all active:scale-95 ${
+                  className={`px-2.5 py-1 rounded-full text-xs border shrink-0 transition-all active:scale-95 ${
                     active ? 'border-transparent text-[#ebe0cc]' : 'border-white/[0.12] text-[#555] bg-transparent'
                   }`}
                   style={active ? { backgroundColor: color, borderColor: color } : {}}
@@ -381,7 +381,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
           <table className="w-full text-sm min-w-[320px]">
             <thead>
               <tr className="border-b border-white/[0.08]">
-                <th className="text-left px-4 py-3 text-[#666] font-medium">Team</th>
+                <th className="text-left px-4 py-3 text-[#666]">Team</th>
                 <SortTh label="Actual" active={sort === 'actual'} onClick={() => setSort('actual')} />
                 <SortTh label="Market" active={sort === 'market'} onClick={() => setSort('market')} />
                 <SortTh label="Return" active={sort === 'return'} onClick={() => setSort('return')} last />
@@ -403,13 +403,13 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
                         <span className="font-medium text-[#ebe0cc]">{team.name}</span>
                       </div>
                     </td>
-                    <td className="text-right px-3 py-3 font-semibold text-[#ebe0cc]">
+                    <td className="text-right px-3 py-3 text-[#ebe0cc]">
                       {formatCoins(team.current_value)}
                     </td>
-                    <td className={`text-right px-3 py-3 font-semibold ${retColor}`}>
+                    <td className={`text-right px-3 py-3 ${retColor}`}>
                       {formatCoins(team.projected_value)}
                     </td>
-                    <td className={`text-right px-4 py-3 font-semibold text-xs ${retColor}`}>
+                    <td className={`text-right px-4 py-3 text-xs ${retColor}`}>
                       {retPct >= 0 ? '+' : ''}{retPct.toFixed(0)}%
                     </td>
                   </tr>

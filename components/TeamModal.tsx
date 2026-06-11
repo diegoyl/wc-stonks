@@ -63,11 +63,11 @@ export default function TeamModal({ teamId, onClose }: Props) {
           <div className="flex items-center gap-3">
             <FlagImage code={team.code} name={team.name} size={44} />
             <div>
-              <p className="text-xs font-semibold text-[#666] uppercase tracking-wide leading-none mb-1">{team.code}</p>
-              <h2 className="text-xl font-bold text-[#ebe0cc] leading-tight">{team.name}</h2>
+              <p className="text-xs text-[#666] uppercase tracking-wide leading-none mb-1">{team.code}</p>
+              <h2 className="text-xl text-[#ebe0cc] leading-tight">{team.name}</h2>
             </div>
           </div>
-          <button onClick={onClose} className="text-[#555] hover:text-[#ebe0cc] text-2xl font-light leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
+          <button onClick={onClose} className="text-[#555] hover:text-[#ebe0cc] text-2xl leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
         </div>
 
         {/* Stat cards */}
@@ -129,7 +129,7 @@ function Stat({ label, value, color }: { label: string; value: string; color?: s
   return (
     <div className="bg-white/[0.04] rounded-xl p-3 text-center">
       <p className="text-xs text-[#666] mb-0.5">{label}</p>
-      <p className="text-base font-bold" style={{ color: color ?? '#fff' }}>{value}</p>
+      <p className="text-base" style={{ color: color ?? '#fff' }}>{value}</p>
     </div>
   )
 }

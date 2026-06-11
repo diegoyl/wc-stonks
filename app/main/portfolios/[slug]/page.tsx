@@ -34,11 +34,11 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
       <div className="mb-5">
         <Link href="/main/portfolios" className="text-sm text-[#666] mb-2 inline-block">← All portfolios</Link>
         <div className="flex items-baseline gap-2 flex-wrap">
-          <h1 className="text-2xl font-bold text-[#ebe0cc]">{player.name}</h1>
-          {isMe && <span className="text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-2 py-0.5 rounded-full">you</span>}
+          <h1 className="text-2xl text-[#ebe0cc]">{player.name}</h1>
+          {isMe && <span className="text-xs text-[#00c805] bg-[#00c805]/10 px-2 py-0.5 rounded-full">you</span>}
         </div>
         {entry && (
-          <p className="text-3xl font-black text-[#ebe0cc] mt-1">{formatCoins(entry.current_value)}</p>
+          <p className="text-3xl text-[#ebe0cc] mt-1">{formatCoins(entry.current_value)}</p>
         )}
       </div>
 
@@ -47,11 +47,11 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
           <table className="w-full text-sm min-w-[300px]">
             <thead>
               <tr className="border-b border-white/[0.08]">
-                <th className="text-left px-4 py-3 text-[#666] font-medium">Team</th>
-                <th className="text-right px-3 py-3 text-[#666] font-medium">Sh.</th>
-                <th className="text-right px-3 py-3 text-[#666] font-medium hidden sm:table-cell">Draft</th>
-                <th className="text-right px-3 py-3 text-[#666] font-medium hidden sm:table-cell">Value</th>
-                <th className="text-right px-4 py-3 text-[#666] font-medium">Total</th>
+                <th className="text-left px-4 py-3 text-[#666]">Team</th>
+                <th className="text-right px-3 py-3 text-[#666]">Sh.</th>
+                <th className="text-right px-3 py-3 text-[#666] hidden sm:table-cell">Draft</th>
+                <th className="text-right px-3 py-3 text-[#666] hidden sm:table-cell">Value</th>
+                <th className="text-right px-4 py-3 text-[#666]">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -69,15 +69,15 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
                   <td className="text-right px-3 py-3 text-[#888]">{row.holding.shares}</td>
                   <td className="text-right px-3 py-3 text-[#666] hidden sm:table-cell">{formatCoins(row.team.draft_value)}</td>
                   <td className="text-right px-3 py-3 text-[#888] hidden sm:table-cell">{formatCoins(row.team.current_value)}</td>
-                  <td className="text-right px-4 py-3 font-bold text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
+                  <td className="text-right px-4 py-3 text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
               <tr className="border-t border-white/[0.08]">
-                <td colSpan={2} className="px-4 py-3 font-semibold text-[#666] text-sm sm:hidden">Total</td>
-                <td colSpan={4} className="px-4 py-3 font-semibold text-[#666] text-sm hidden sm:table-cell">Portfolio total</td>
-                <td className="text-right px-4 py-3 font-black text-[#00c805]">
+                <td colSpan={2} className="px-4 py-3 text-[#666] text-sm sm:hidden">Total</td>
+                <td colSpan={4} className="px-4 py-3 text-[#666] text-sm hidden sm:table-cell">Portfolio total</td>
+                <td className="text-right px-4 py-3 text-[#00c805]">
                   {entry ? formatCoins(entry.current_value) : '—'}
                 </td>
               </tr>

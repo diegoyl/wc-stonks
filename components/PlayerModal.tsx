@@ -27,7 +27,7 @@ function SortTh({ label, active, dir, onClick }: {
 }) {
   return (
     <th
-      className={`text-right py-2 pr-1 font-medium cursor-pointer select-none whitespace-nowrap transition-colors ${
+      className={`text-right py-2 pr-1 cursor-pointer select-none whitespace-nowrap transition-colors ${
         active ? 'text-[#ebe0cc]' : 'text-[#555] hover:text-[#888]'
       }`}
       onClick={onClick}
@@ -98,10 +98,10 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-[#ebe0cc] leading-tight">{player.name}</h2>
+            <h2 className="text-2xl text-[#ebe0cc] leading-tight">{player.name}</h2>
             {entry && (
               <>
-                <p className="text-2xl font-bold text-[#ebe0cc] leading-tight">{formatCoins(entry.current_value)}</p>
+                <p className="text-2xl text-[#ebe0cc] leading-tight">{formatCoins(entry.current_value)}</p>
                 <p className={`text-sm mt-0.5 ${retColor}`}>
                   {formatCoins(entry.projected_value)}
                   <span className="ml-1">{Math.abs(retPct).toFixed(0)}%</span>
@@ -109,7 +109,7 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
               </>
             )}
           </div>
-          <button onClick={onClose} className="text-[#555] hover:text-[#ebe0cc] text-2xl font-light leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
+          <button onClick={onClose} className="text-[#555] hover:text-[#ebe0cc] text-2xl leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
         </div>
 
         {/* Chart */}
@@ -137,7 +137,7 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
           <table className="w-full text-sm">
             <thead className="sticky top-0 bg-[#141111]">
               <tr className="border-b border-white/[0.08]">
-                <th className="text-left py-2 text-[#666] font-medium">Team</th>
+                <th className="text-left py-2 text-[#666]">Team</th>
                 <SortTh label="Shares"    active={sortCol === 'shares'}    dir={sortDir} onClick={() => handleSort('shares')} />
                 <SortTh label="Value"     active={sortCol === 'total'}     dir={sortDir} onClick={() => handleSort('total')} />
                 <SortTh label="Proj"      active={sortCol === 'projected'} dir={sortDir} onClick={() => handleSort('projected')} />
@@ -161,9 +161,9 @@ export default function PlayerModal({ playerId, onClose, onTeamClick }: Props) {
                       </button>
                     </td>
                     <td className="text-right py-2.5 pr-1 text-[#888]">×{row.holding.shares}</td>
-                    <td className="text-right py-2.5 pr-1 font-semibold text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
-                    <td className={`text-right py-2.5 pr-1 font-semibold ${rowRetColor}`}>{formatCoins(projTotal)}</td>
-                    <td className={`text-right py-2.5 text-xs font-semibold ${rowRetColor}`}>
+                    <td className="text-right py-2.5 pr-1 text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
+                    <td className={`text-right py-2.5 pr-1 ${rowRetColor}`}>{formatCoins(projTotal)}</td>
+                    <td className={`text-right py-2.5 text-xs ${rowRetColor}`}>
                       {Math.abs(ret).toFixed(0)}%
                     </td>
                   </tr>
