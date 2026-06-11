@@ -154,8 +154,21 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
     onSelect(player)
   }
 
+  useEffect(() => {
+    const scrollY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.width = '100%'
+    return () => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      window.scrollTo(0, scrollY)
+    }
+  }, [])
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ width: '100dvw' }}>
       <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
         <h2 className="text-lg font-bold text-[#ebe0cc] mb-4 text-center">Who are you?</h2>
         <div className="space-y-2">
@@ -179,19 +192,19 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
             ))
           }
           {!loadingPlayers && (addingNew ? (
-            <div className="flex gap-2 pt-1">
+            <div className="flex flex-col gap-2 pt-1">
               <input
                 autoFocus
                 value={newName}
                 onChange={e => setNewName(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleCreate()}
                 placeholder="Name"
-                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.12] text-[#ebe0cc] text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.12] text-[#ebe0cc] text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
               />
               <button
                 onClick={handleCreate}
                 disabled={!newName.trim() || saving}
-                className="px-3 py-2 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm font-bold disabled:opacity-40"
+                className="w-full py-2.5 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm font-bold disabled:opacity-40"
               >
                 {saving ? '…' : 'Add'}
               </button>

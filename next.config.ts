@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['diego-mac.local'],
   typescript: { ignoreBuildErrors: true },
   images: {
     localPatterns: [
