@@ -169,10 +169,10 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ width: '100dvw' }}>
-      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
-        <h2 className="text-lg font-bold text-[#ebe0cc] mb-4 text-center">Who are you?</h2>
-        <div className="space-y-2">
-          {loadingPlayers
+      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-5">
+        <h2 className="text-lg font-bold text-[#ebe0cc] mb-3 text-center">Who are you?</h2>
+        <div className="space-y-1.5">
+          {!addingNew && (loadingPlayers
             ? <div className="flex justify-center py-4">
                 <img
                   src="/trophy.png"
@@ -185,14 +185,20 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
               <button
                 key={p.id}
                 onClick={() => onSelect(p)}
-                className="w-full text-left px-4 py-3 rounded-xl border border-white/[0.08] text-[#ebe0cc] font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase"
+                className="w-full text-left px-4 py-2 rounded-xl border border-white/[0.08] text-[#ebe0cc] font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase text-sm"
               >
                 {p.name}
               </button>
             ))
-          }
+          )}
           {!loadingPlayers && (addingNew ? (
-            <div className="flex flex-col gap-2 pt-1">
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => { setAddingNew(false); setNewName('') }}
+                className="text-xs text-[#555] hover:text-[#888] transition-colors w-full text-center uppercase tracking-wide my-3"
+              >
+                ← Back
+              </button>
               <input
                 autoFocus
                 value={newName}
@@ -206,7 +212,7 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
                 disabled={!newName.trim() || saving}
                 className="w-full py-2.5 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm font-bold disabled:opacity-40"
               >
-                {saving ? '…' : 'Add'}
+                {saving ? '…' : 'CREATE USER'}
               </button>
             </div>
           ) : (
