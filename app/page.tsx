@@ -103,16 +103,49 @@ function SuccessScreen({ playerName }: { playerName: string }) {
 
 // ─── Player picker ────────────────────────────────────────────────────────────
 
+const FALLBACK_PLAYERS: Player[] = [
+  { id: 1, name: 'Andres',    slug: 'andres' },
+  { id: 2, name: 'Ana Paula', slug: 'ana-paula' },
+  { id: 3, name: 'Fabian',    slug: 'fabian' },
+  { id: 4, name: 'Diego',     slug: 'diego' },
+  { id: 5, name: 'Mami',      slug: 'mami' },
+  { id: 6, name: 'Papi',      slug: 'papi' },
+]
+
 function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
   const [players, setPlayers] = useState<Player[]>([])
   const [loadingPlayers, setLoadingPlayers] = useState(true)
   const [addingNew, setAddingNew] = useState(false)
   const [newName, setNewName] = useState('')
   const [saving, setSaving] = useState(false)
+  const [flashOn, setFlashOn] = useState(true)
 
   useEffect(() => {
-    loadPlayers().then(p => { setPlayers(p); setLoadingPlayers(false) })
+    const cached = localStorage.getItem('quiniela_players')
+    if (cached) {
+      setPlayers(JSON.parse(cached))
+      setLoadingPlayers(false)
+    }
+    const timeout = setTimeout(() => {
+      setPlayers(p => p.length ? p : FALLBACK_PLAYERS)
+      setLoadingPlayers(false)
+    }, 3000)
+    loadPlayers()
+      .then(p => {
+        clearTimeout(timeout)
+        setPlayers(p)
+        setLoadingPlayers(false)
+        localStorage.setItem('quiniela_players', JSON.stringify(p))
+      })
+      .catch(() => { clearTimeout(timeout); setPlayers(p => p.length ? p : FALLBACK_PLAYERS); setLoadingPlayers(false) })
+    return () => clearTimeout(timeout)
   }, [])
+
+  useEffect(() => {
+    if (!loadingPlayers) return
+    const interval = setInterval(() => setFlashOn(v => !v), 500)
+    return () => clearInterval(interval)
+  }, [loadingPlayers])
 
   async function handleCreate() {
     if (!newName.trim()) return
@@ -127,7 +160,14 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
         <h2 className="text-lg font-bold text-white mb-4 text-center">Who are you?</h2>
         <div className="space-y-2">
           {loadingPlayers
-            ? <p className="text-sm text-[#6b5c4e] text-center py-2">Loading…</p>
+            ? <div className="flex justify-center py-4">
+                <img
+                  src="/trophy.png"
+                  alt="loading"
+                  className="w-32 h-32 object-contain"
+                  style={{ imageRendering: 'pixelated', opacity: flashOn ? 1 : 0 }}
+                />
+              </div>
             : players.map(p => (
               <button
                 key={p.id}

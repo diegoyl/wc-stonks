@@ -1,11 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Player } from '@/lib/types'
 
+let _supabase: ReturnType<typeof createClient> | null = null
 function getSupabase() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  if (!_supabase) {
+    _supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+  }
+  return _supabase
 }
 
 export type DraftPicks = Record<string, number> // team code → share count
