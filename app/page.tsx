@@ -94,7 +94,7 @@ function SuccessScreen({ playerName }: { playerName: string }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141111]">
       <div className="text-center">
         <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain mx-auto mb-4" style={{ imageRendering: 'pixelated' }} />
-        <h1 className="text-2xl text-[#ebe0cc] mb-2">Draft Submitted!</h1>
+        <h1 className="text-2xl text-[#ebe0cc] mb-2">Picks Submitted!</h1>
         <p className="text-[#7a6a5a] text-sm">Resubmit form to make changes</p>
       </div>
     </div>

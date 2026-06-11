@@ -19,21 +19,21 @@ const CONFEDERATION_LABEL: Record<string, string> = {
 
 const MANAGERS: Record<string, string> = {
   ESP: 'Luis de la Fuente',     FRA: 'Didier Deschamps',      ARG: 'Lionel Scaloni',
-  BRA: 'Dorival Júnior',        ENG: 'Thomas Tuchel',         POR: 'Roberto Martínez',
-  GER: 'Julian Nagelsmann',     NED: 'Ronald Koeman',         BEL: 'Domenico Tedesco',
+  BRA: 'Carlo Ancelotti',       ENG: 'Thomas Tuchel',         POR: 'Roberto Martínez',
+  GER: 'Julian Nagelsmann',     NED: 'Ronald Koeman',         BEL: 'Rudi Garcia',
   MAR: 'Walid Regragui',        JPN: 'Hajime Moriyasu',       NOR: 'Ståle Solbakken',
-  COL: 'Néstor Lorenzo',        URU: 'Marcelo Bielsa',        SEN: 'Aliou Cissé',
+  COL: 'Néstor Lorenzo',        URU: 'Marcelo Bielsa',        SEN: 'Pape Thiaw',
   CRO: 'Zlatko Dalić',          ECU: 'Sebastián Beccacece',   USA: 'Mauricio Pochettino',
   MEX: 'Javier Aguirre',        SUI: 'Murat Yakin',           TUR: 'Vincenzo Montella',
   KOR: 'Hong Myung-bo',         AUS: 'Tony Popovic',          CAN: 'Jesse Marsch',
-  IRN: 'Amir Ghalenoei',        KSA: 'Roberto Mancini',       EGY: 'Hossam Hassan',
+  IRN: 'Amir Ghalenoei',        KSA: 'Hervé Renard',          EGY: 'Hossam Hassan',
   CZE: 'Ivan Hašek',            RSA: 'Hugo Broos',            SWE: 'Jon Dahl Tomasson',
-  TUN: 'Jalel Kadri',           SCO: 'Steve Clarke',          BIH: 'Sergej Barbarez',
-  PAR: 'Gustavo Alfaro',        CIV: 'Emerse Faé',            QAT: 'Marquez López',
-  IRQ: 'Jesús Casas',           ALG: 'Djamel Belmadi',        AUT: 'Ralf Rangnick',
-  COD: 'Sébastien Desabre',     CPV: 'Bubista',               GHA: 'Otto Addo',
-  PAN: 'Thomas Christiansen',   HAI: '—',                     CUW: 'Remko Bicentini',
-  NZL: 'Danny Hay',             UZB: 'Srecko Katanec',        JOR: 'Hussein Ammouta',
+  TUN: 'Sami Trabelsi',         SCO: 'Steve Clarke',          BIH: 'Sergej Barbarez',
+  PAR: 'Gustavo Alfaro',        CIV: 'Emerse Faé',            QAT: 'Julen Lopetegui',
+  IRQ: 'Jesús Casas',           ALG: 'Vladimir Petković',     AUT: 'Ralf Rangnick',
+  COD: 'Sébastien Desabre',     CPV: 'Bubista (Pedro Leitão Brito)', GHA: 'Carlos Queiroz',
+  PAN: 'Thomas Christiansen',   HAI: 'Sébastien Migné',       CUW: 'Dick Advocaat',
+  NZL: 'Darren Bazeley',        UZB: 'Fabio Cannavaro',       JOR: 'Jamal Sellami',
 }
 
 type Stars = 0 | 1 | 2 | 3
