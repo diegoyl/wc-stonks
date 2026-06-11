@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Quiniela',
     description: 'Quiniela Mundial 2026',
-    images: ['/banner-square.png'],
+    images: ['/banner-wide.png'],
   },
 }
 
