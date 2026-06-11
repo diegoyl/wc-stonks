@@ -20,8 +20,8 @@ export default function AdminPage() {
   if (!authed) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="bg-[#18110D] rounded-2xl border border-white/[0.08] p-8 w-full max-w-sm">
-          <h1 className="text-xl font-bold text-white mb-6">Admin</h1>
+        <div className="bg-[#141111] rounded-2xl border border-white/[0.08] p-8 w-full max-w-sm">
+          <h1 className="text-xl font-bold text-[#ebe0cc] mb-6">Admin</h1>
           <form onSubmit={handleSubmit} className="space-y-3">
             <input
               type="password"
@@ -29,7 +29,7 @@ export default function AdminPage() {
               onChange={e => { setInput(e.target.value); setError(false) }}
               placeholder="2x"
               autoFocus
-              className={`w-full px-4 py-2.5 rounded-lg border bg-[#18110D] text-white text-sm outline-none focus:ring-2 transition-all placeholder-[#555] ${
+              className={`w-full px-4 py-2.5 rounded-lg border bg-[#141111] text-[#ebe0cc] text-sm outline-none focus:ring-2 transition-all placeholder-[#555] ${
                 error
                   ? 'border-[#ff4b4b]/50 focus:ring-[#ff4b4b]/20'
                   : 'border-white/[0.1] focus:ring-[#00c805]/20 focus:border-[#00c805]/50'
@@ -59,7 +59,7 @@ function AdminDashboard() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-white">Admin</h1>
+        <h1 className="text-2xl font-bold text-[#ebe0cc]">Admin</h1>
         <span className="text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-2 py-0.5 rounded-full">authenticated</span>
       </div>
 
@@ -85,7 +85,7 @@ function AdminDashboard() {
               {rules.map(r => (
                 <div key={r.id} className="bg-white/[0.04] rounded-lg px-3 py-2 flex items-center justify-between text-sm gap-2">
                   <span className="text-[#888] text-xs">{r.label}</span>
-                  <span className="font-bold text-white shrink-0">{formatCoins(r.payout)}</span>
+                  <span className="font-bold text-[#ebe0cc] shrink-0">{formatCoins(r.payout)}</span>
                 </div>
               ))}
             </div>
@@ -98,7 +98,7 @@ function AdminDashboard() {
             {bets.map(bet => (
               <div key={bet.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-white/[0.03]">
                 <div>
-                  <span className="font-medium text-white text-sm">{bet.name}</span>
+                  <span className="font-medium text-[#ebe0cc] text-sm">{bet.name}</span>
                   <span className="ml-2 text-xs text-[#666]">{formatCoins(bet.payout)}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -134,10 +134,10 @@ function AdminDashboard() {
                     <td className="py-2">
                       <div className="flex items-center gap-2">
                         <FlagImage code={t.code} name={t.name} size={18} />
-                        <span className="text-white">{t.name}</span>
+                        <span className="text-[#ebe0cc]">{t.name}</span>
                       </div>
                     </td>
-                    <td className="text-right py-2 font-semibold text-white">{formatCoins(t.current_value)}</td>
+                    <td className="text-right py-2 font-semibold text-[#ebe0cc]">{formatCoins(t.current_value)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -158,9 +158,9 @@ function AdminDashboard() {
 
 function Section({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
-    <div className="bg-[#18110D] rounded-xl border border-white/[0.08] p-5">
+    <div className="bg-[#141111] rounded-xl border border-white/[0.08] p-5">
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="font-bold text-white">{title}</h2>
+        <h2 className="font-bold text-[#ebe0cc]">{title}</h2>
         {badge && (
           <span className="text-xs font-semibold text-[#666] bg-white/[0.06] px-2 py-0.5 rounded-full">{badge}</span>
         )}
@@ -170,5 +170,5 @@ function Section({ title, badge, children }: { title: string; badge?: string; ch
   )
 }
 
-const selectCls = 'w-full px-3 py-2 rounded-lg border border-white/[0.1] text-sm text-[#555] bg-[#18110D] cursor-not-allowed'
+const selectCls = 'w-full px-3 py-2 rounded-lg border border-white/[0.1] text-sm text-[#555] bg-[#141111] cursor-not-allowed'
 const btnDisabled = 'px-4 py-2 rounded-lg bg-white/[0.06] text-[#555] text-sm font-medium cursor-not-allowed'

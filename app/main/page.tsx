@@ -12,6 +12,7 @@ import { useProfile } from '@/components/ProfileProvider'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
+import { PLAYER_COLORS } from '@/lib/constants'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -21,22 +22,13 @@ const TEAM_COLORS = [
   '#14b8a6', '#f43f5e', '#a855f7', '#0ea5e9',
 ]
 
-const PLAYER_COLORS: Record<string, string> = {
-  'player-diego': '#3b82f6',
-  'player-marco': '#10b981',
-  'player-sofia': '#8b5cf6',
-  'player-lucas': '#f97316',
-  'player-ana':   '#ec4899',
-  'player-raj':   '#06b6d4',
-}
-
 const PROJECTED_DATE = '2026-07-19'
 
 const CHART_STYLE = {
   grid: 'rgba(255,255,255,0.05)',
   tick: '#555' as const,
   tooltip: {
-    contentStyle: { background: '#18110D', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
+    contentStyle: { background: '#141111', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
     labelStyle: { color: '#888' },
   },
 }
@@ -51,7 +43,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
       <button
         onClick={() => onChange('actual')}
         className={`px-3 py-1.5 text-xs font-semibold transition-colors ${
-          mode === 'actual' ? 'bg-[#c9bba9] text-[#3d1f0a]' : 'bg-transparent text-[#666] hover:text-[#999]'
+          mode === 'actual' ? 'bg-[#ebe0cc] text-[#141111]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
         Actual
@@ -59,7 +51,7 @@ function ModeToggle({ mode, onChange }: { mode: ChartMode; onChange: (m: ChartMo
       <button
         onClick={() => onChange('market')}
         className={`px-3 py-1.5 text-xs font-semibold border-l border-white/[0.12] transition-colors ${
-          mode === 'market' ? 'bg-[#c9bba9] text-[#3d1f0a]' : 'bg-transparent text-[#666] hover:text-[#999]'
+          mode === 'market' ? 'bg-[#ebe0cc] text-[#141111]' : 'bg-transparent text-[#666] hover:text-[#999]'
         }`}
       >
         Market
@@ -74,7 +66,7 @@ function SortTh({
   return (
     <th
       className={`text-right ${last ? 'px-4' : 'px-3'} py-3 font-medium cursor-pointer select-none whitespace-nowrap transition-colors ${
-        active ? 'text-white' : 'text-[#555] hover:text-[#888]'
+        active ? 'text-[#ebe0cc]' : 'text-[#555] hover:text-[#888]'
       }`}
       onClick={onClick}
     >
@@ -149,9 +141,9 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-white mb-4">Standings</h2>
+      <h2 className="text-xl font-bold text-[#ebe0cc] mb-4">Standings</h2>
 
-      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] p-3 mb-4">
+      <div className="bg-[#141111] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5 flex-1 min-w-0">
             {entries.map(entry => {
@@ -162,7 +154,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
                   key={entry.player.id}
                   onClick={() => togglePlayer(String(entry.player.id))}
                   className={`px-2.5 py-1 rounded-full text-xs font-medium border shrink-0 transition-all active:scale-95 ${
-                    active ? 'border-transparent text-white' : 'border-white/[0.12] text-[#555] bg-transparent'
+                    active ? 'border-transparent text-[#ebe0cc]' : 'border-white/[0.12] text-[#555] bg-transparent'
                   }`}
                   style={active ? { backgroundColor: color, borderColor: color } : {}}
                 >
@@ -207,7 +199,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
         )}
       </div>
 
-      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#141111] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[280px]">
             <thead>
@@ -220,7 +212,7 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
             <tbody>
               {sortedEntries.map(entry => {
                 const isMe = String(entry.player.id) === playerId
-                const retPct = (entry.projected_value / 100 - 1) * 100
+                const retPct = (entry.projected_value / 200 - 1) * 100
                 const retColor = retPct >= 0 ? 'text-[#00c805]' : 'text-[#ff4b4b]'
                 return (
                   <tr
@@ -229,14 +221,14 @@ function StandingsSection({ onPlayerClick }: { onPlayerClick: (id: string) => vo
                     onClick={() => onPlayerClick(String(entry.player.id))}
                   >
                     <td className="px-4 py-3">
-                      <span className="font-medium text-white">{entry.player.name}</span>
+                      <span className="font-medium text-[#ebe0cc]">{entry.player.name}</span>
                       {isMe && (
                         <span className="ml-2 text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-1.5 py-0.5 rounded-full">
                           you
                         </span>
                       )}
                     </td>
-                    <td className="text-right px-3 py-3 font-semibold text-white">
+                    <td className="text-right px-3 py-3 font-semibold text-[#ebe0cc]">
                       {formatCoins(entry.current_value)}
                     </td>
                     <td className="text-right px-4 py-3">
@@ -325,9 +317,9 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-white mb-4">Teams</h2>
+      <h2 className="text-xl font-bold text-[#ebe0cc] mb-4">Teams</h2>
 
-      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] p-3 mb-4">
+      <div className="bg-[#141111] rounded-xl border border-white/[0.08] p-3 mb-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5 flex-1 min-w-0">
             {teamsDesc.filter(t => t.current_value > 0).map(team => {
@@ -338,7 +330,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
                   key={team.id}
                   onClick={() => toggleTeam(team.id)}
                   className={`px-2.5 py-1 rounded-full text-xs font-medium border shrink-0 transition-all active:scale-95 ${
-                    active ? 'border-transparent text-white' : 'border-white/[0.12] text-[#555] bg-transparent'
+                    active ? 'border-transparent text-[#ebe0cc]' : 'border-white/[0.12] text-[#555] bg-transparent'
                   }`}
                   style={active ? { backgroundColor: color, borderColor: color } : {}}
                 >
@@ -384,7 +376,7 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
         )}
       </div>
 
-      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#141111] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[320px]">
             <thead>
@@ -408,10 +400,10 @@ function TeamsSection({ onTeamClick }: { onTeamClick: (id: string) => void }) {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <FlagImage code={team.code} name={team.name} size={20} />
-                        <span className="font-medium text-white">{team.name}</span>
+                        <span className="font-medium text-[#ebe0cc]">{team.name}</span>
                       </div>
                     </td>
-                    <td className="text-right px-3 py-3 font-semibold text-white">
+                    <td className="text-right px-3 py-3 font-semibold text-[#ebe0cc]">
                       {formatCoins(team.current_value)}
                     </td>
                     <td className={`text-right px-3 py-3 font-semibold ${retColor}`}>

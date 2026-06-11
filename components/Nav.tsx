@@ -57,9 +57,9 @@ export default function Nav() {
   return (
     <>
       {/* ── Top bar ─────────────────────────────────────────────── */}
-      <header className="bg-[#18110D] border-b border-white/[0.08] sticky top-0 z-40">
+      <header className="bg-[#141111] border-b border-white/[0.08] sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-          <Link href="/main" className="text-white font-bold text-lg tracking-tight shrink-0">
+          <Link href="/main" className="text-[#ebe0cc] font-bold text-lg tracking-tight shrink-0">
             WC Stonks
           </Link>
 
@@ -72,7 +72,7 @@ export default function Nav() {
                   key={tab.href}
                   href={tab.href}
                   className={`px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
-                    active ? 'bg-white/[0.1] text-white' : 'text-[#888] hover:text-white hover:bg-white/[0.06]'
+                    active ? 'bg-white/[0.1] text-[#ebe0cc]' : 'text-[#888] hover:text-[#ebe0cc] hover:bg-white/[0.06]'
                   }`}
                 >
                   {tab.label}
@@ -84,11 +84,11 @@ export default function Nav() {
           {/* Profile button */}
           <button
             onClick={openPicker}
-            className="flex items-center gap-2 text-sm text-[#888] hover:text-white transition-colors shrink-0"
+            className="flex items-center gap-2 text-sm text-[#888] hover:text-[#ebe0cc] transition-colors shrink-0"
           >
             {currentPlayer ? (
               <>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0 ${PLAYER_COLORS[currentPlayer.id] ?? 'bg-gray-600'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[#ebe0cc] font-bold text-xs shrink-0 ${PLAYER_COLORS[currentPlayer.id] ?? 'bg-gray-600'}`}>
                   {currentPlayer.name[0]}
                 </div>
                 <span className="hidden md:inline text-sm">{currentPlayer.name}</span>
@@ -101,7 +101,7 @@ export default function Nav() {
       </header>
 
       {/* ── Mobile bottom tab bar ────────────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#18110D] border-t border-white/[0.08] flex">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141111] border-t border-white/[0.08] flex">
         {TABS.map(tab => {
           const active = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href)
           return (
@@ -109,7 +109,7 @@ export default function Nav() {
               key={tab.href}
               href={tab.href}
               className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2 transition-colors ${
-                active ? 'text-white' : 'text-[#555]'
+                active ? 'text-[#ebe0cc]' : 'text-[#555]'
               }`}
             >
               {tab.icon}

@@ -36,9 +36,9 @@ function ConfirmModal({
     .sort((a, b) => (shares[b.id] * b.draft_value) - (shares[a.id] * a.draft_value))
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden">
+      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden">
         <div className="px-5 pt-5 pb-3">
-          <h2 className="text-lg font-bold text-white uppercase tracking-wide">Confirm Selections</h2>
+          <h2 className="text-lg font-bold text-[#ebe0cc] uppercase tracking-wide">Confirm Selections</h2>
           {remaining >= 2 && (
             <p className="text-xs text-[#f87171] mt-1.5">You still have {remaining}¢ left</p>
           )}
@@ -54,10 +54,10 @@ function ConfirmModal({
                     <td className="pl-4 py-2.5">
                       <FlagImage code={team.code} name={team.name} size={30} outlined />
                     </td>
-                    <td className="pl-2 pr-3 py-2.5 text-base font-semibold text-white">{team.code}</td>
-                    <td className="py-2.5 text-xs text-white/40 text-right tabular-nums">{count}</td>
-                    <td className="py-2.5 px-1.5 text-xs text-white/40 text-center">×</td>
-                    <td className="py-2.5 text-xs text-white/40 text-left tabular-nums">{team.draft_value}¢</td>
+                    <td className="pl-2 pr-3 py-2.5 text-base font-semibold text-[#ebe0cc]">{team.code}</td>
+                    <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-right tabular-nums">{count}</td>
+                    <td className="py-2.5 px-1.5 text-xs text-[#ebe0cc]/40 text-center">×</td>
+                    <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-left tabular-nums">{team.draft_value}¢</td>
                     <td className="pr-4 pl-3 py-2.5 text-right text-base font-bold text-[#eeb22d] tabular-nums">{total}¢</td>
                   </tr>
                 )
@@ -69,18 +69,18 @@ function ConfirmModal({
           <div className="flex flex-col gap-2">
             <button
               onClick={onConfirm}
-              className="w-full py-3 rounded-lg bg-[#c9bba9] text-[#3d1f0a] text-sm font-bold hover:bg-[#c9bba9]/90 transition-colors uppercase"
+              className="w-full py-3 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm font-bold hover:bg-[#ebe0cc]/90 transition-colors uppercase"
             >
               Submit
             </button>
             <button
               onClick={onEdit}
-              className="w-full py-3 rounded-lg border border-white/[0.12] text-sm font-bold text-white hover:bg-white/[0.05] transition-colors uppercase"
+              className="w-full py-3 rounded-lg border border-white/[0.12] text-sm font-bold text-[#ebe0cc] hover:bg-white/[0.05] transition-colors uppercase"
             >
               Edit Draft
             </button>
           </div>
-          <p className="text-xs text-white/40 text-center mt-3">Resubmit anytime to make changes</p>
+          <p className="text-xs text-[#ebe0cc]/40 text-center mt-3">Resubmit anytime to make changes</p>
         </div>
       </div>
     </div>
@@ -91,10 +91,10 @@ function ConfirmModal({
 
 function SuccessScreen({ playerName }: { playerName: string }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#18110D]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141111]">
       <div className="text-center">
         <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain mx-auto mb-4" style={{ imageRendering: 'pixelated' }} />
-        <h1 className="text-2xl font-bold text-white mb-2">Draft Submitted!</h1>
+        <h1 className="text-2xl font-bold text-[#ebe0cc] mb-2">Draft Submitted!</h1>
         <p className="text-[#7a6a5a] text-sm">Resubmit form to make changes</p>
       </div>
     </div>
@@ -156,8 +156,8 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
-        <h2 className="text-lg font-bold text-white mb-4 text-center">Who are you?</h2>
+      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-6">
+        <h2 className="text-lg font-bold text-[#ebe0cc] mb-4 text-center">Who are you?</h2>
         <div className="space-y-2">
           {loadingPlayers
             ? <div className="flex justify-center py-4">
@@ -172,7 +172,7 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
               <button
                 key={p.id}
                 onClick={() => onSelect(p)}
-                className="w-full text-left px-4 py-3 rounded-xl border border-white/[0.08] text-white font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase"
+                className="w-full text-left px-4 py-3 rounded-xl border border-white/[0.08] text-[#ebe0cc] font-medium hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase"
               >
                 {p.name}
               </button>
@@ -186,12 +186,12 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
                 onChange={e => setNewName(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleCreate()}
                 placeholder="Name"
-                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.12] text-white text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
+                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.12] text-[#ebe0cc] text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
               />
               <button
                 onClick={handleCreate}
                 disabled={!newName.trim() || saving}
-                className="px-3 py-2 rounded-lg bg-[#c9bba9] text-[#18110D] text-sm font-bold disabled:opacity-40"
+                className="px-3 py-2 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm font-bold disabled:opacity-40"
               >
                 {saving ? '…' : 'Add'}
               </button>
@@ -199,7 +199,7 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
           ) : (
             <button
               onClick={() => setAddingNew(true)}
-              className="w-full text-left px-4 py-3 rounded-xl bg-[#c9bba9] text-[#18110D] font-bold text-sm hover:bg-[#c9bba9]/90 transition-colors uppercase"
+              className="w-full text-left px-4 py-3 rounded-xl bg-[#ebe0cc] text-[#141111] font-bold text-sm hover:bg-[#ebe0cc]/90 transition-colors uppercase"
             >
               + New User
             </button>
@@ -219,9 +219,9 @@ function ViewTeamsModal({ shares, onClose }: { shares: Record<string, number>; o
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="px-5 pt-5 pb-3">
-          <h2 className="text-lg font-bold text-white uppercase tracking-wide">Your Teams</h2>
+          <h2 className="text-lg font-bold text-[#ebe0cc] uppercase tracking-wide">Your Teams</h2>
           {pickedTeams.length === 0 && (
             <p className="text-xs text-[#6b5c4e] mt-1.5">No teams selected yet.</p>
           )}
@@ -238,10 +238,10 @@ function ViewTeamsModal({ shares, onClose }: { shares: Record<string, number>; o
                       <td className="pl-4 py-2.5">
                         <FlagImage code={team.code} name={team.name} size={30} outlined />
                       </td>
-                      <td className="pl-2 pr-3 py-2.5 text-base font-semibold text-white">{team.code}</td>
-                      <td className="py-2.5 text-xs text-white/40 text-right tabular-nums">{count}</td>
-                      <td className="py-2.5 px-1.5 text-xs text-white/40 text-center">×</td>
-                      <td className="py-2.5 text-xs text-white/40 text-left tabular-nums">{team.draft_value}¢</td>
+                      <td className="pl-2 pr-3 py-2.5 text-base font-semibold text-[#ebe0cc]">{team.code}</td>
+                      <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-right tabular-nums">{count}</td>
+                      <td className="py-2.5 px-1.5 text-xs text-[#ebe0cc]/40 text-center">×</td>
+                      <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-left tabular-nums">{team.draft_value}¢</td>
                       <td className="pr-4 pl-3 py-2.5 text-right text-base font-bold text-[#eeb22d] tabular-nums">{total}¢</td>
                     </tr>
                   )
@@ -251,7 +251,7 @@ function ViewTeamsModal({ shares, onClose }: { shares: Record<string, number>; o
           </div>
         )}
         <div className="px-5 py-4 border-t border-white/[0.08]">
-          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase">
+          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#7b7060] text-[#141111] text-sm font-bold hover:bg-[#7b7060]/90 transition-colors uppercase">
             Close
           </button>
         </div>
@@ -309,13 +309,13 @@ function PrizeRow({ id, label, payout, detail, expanded, onToggle }: {
     <div>
       {canExpand ? (
         <button className="w-full flex items-center justify-between gap-2 text-left py-1" onClick={onToggle}>
-          <span className={`text-sm transition-colors flex-1 ${expanded ? 'text-white' : 'text-white/80'}`}>{label}</span>
-          <span className="text-[10px] border border-white/[0.15] text-white/30 px-1.5 py-0.5 rounded shrink-0">DETAILS</span>
+          <span className={`text-sm transition-colors flex-1 ${expanded ? 'text-[#ebe0cc]' : 'text-[#ebe0cc]/80'}`}>{label}</span>
+          <span className="text-[10px] border border-white/[0.15] text-[#ebe0cc]/30 px-1.5 py-0.5 rounded shrink-0">DETAILS</span>
           <span className="shrink-0">{payoutEl}</span>
         </button>
       ) : (
         <div className="flex items-center justify-between gap-2 py-1">
-          <span className="text-sm text-white/80 flex-1">{label}</span>
+          <span className="text-sm text-[#ebe0cc]/80 flex-1">{label}</span>
           <span className="shrink-0">{payoutEl}</span>
         </div>
       )}
@@ -341,20 +341,20 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-sm max-h-[85vh] flex flex-col normal-case tracking-normal" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-sm max-h-[85vh] flex flex-col normal-case tracking-normal" onClick={e => e.stopPropagation()}>
         <div className="overflow-y-auto flex-1">
         <div className="px-5 pt-5 pb-3">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-lg font-bold text-white uppercase">Prizes</h2>
+            <h2 className="text-lg font-bold text-[#ebe0cc] uppercase">Prizes</h2>
             <p className="text-lg font-bold"><span className="text-[#6bcb69]">$1</span> = <span className="text-[#eeb22d]">10¢</span></p>
           </div>
-          <p className="text-xs text-white/50 mt-1.5 leading-relaxed normal-case">
+          <p className="text-xs text-[#ebe0cc]/50 mt-1.5 leading-relaxed normal-case">
           Teams earn prizes by winning matches or bonus prizes. If you own multiple shares, you win <span className="text-[#eeb22d]">prize × shares</span>
           </p>
         </div>
 
         <div className="border-t border-white/[0.08] px-5 py-2">
-          <p className="text-sm font-bold text-white uppercase text-center">Main Prizes</p>
+          <p className="text-sm font-bold text-[#ebe0cc] uppercase text-center">Main Prizes</p>
         </div>
         <div className="border-t border-white/[0.08] px-5 py-3">
           {MAIN_POT_RULES.map(r => (
@@ -363,7 +363,7 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="border-t border-white/[0.08] px-5 py-2">
-          <p className="text-sm font-bold text-white uppercase text-center">Bonus Prizes</p>
+          <p className="text-sm font-bold text-[#ebe0cc] uppercase text-center">Bonus Prizes</p>
         </div>
 
         {([
@@ -411,7 +411,7 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
 
         </div>{/* end scrollable */}
         <div className="border-t border-white/[0.08] px-5 py-4 shrink-0">
-          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase">
+          <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-[#7b7060] text-[#141111] text-sm font-bold hover:bg-[#7b7060]/90 transition-colors uppercase">
             Close
           </button>
         </div>
@@ -550,12 +550,12 @@ export default function DraftPage() {
       {betsOpen && <BetsPopup onClose={() => setBetsOpen(false)} />}
       {overBudgetOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#18110D] rounded-2xl border border-white/[0.1] w-full max-w-xs p-5">
-            <p className="text-white font-bold text-base mb-1 uppercase">Over Budget</p>
-            <p className="text-sm text-white/70 mb-4 normal-case">You are <span className="text-[#f87171] font-bold">{Math.abs(remaining)}¢</span> over budget. Adjust your selections.</p>
+          <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-5">
+            <p className="text-[#ebe0cc] font-bold text-base mb-1 uppercase">Over Budget</p>
+            <p className="text-sm text-[#ebe0cc]/70 mb-4 normal-case">You are <span className="text-[#f87171] font-bold">{Math.abs(remaining)}¢</span> over budget. Adjust your selections.</p>
             <button
               onClick={() => setOverBudgetOpen(false)}
-              className="w-full py-2.5 rounded-lg bg-[#776856] text-[#18110D] text-sm font-bold hover:bg-[#776856]/90 transition-colors uppercase"
+              className="w-full py-2.5 rounded-lg bg-[#7b7060] text-[#141111] text-sm font-bold hover:bg-[#7b7060]/90 transition-colors uppercase"
             >
               Close
             </button>
@@ -564,17 +564,17 @@ export default function DraftPage() {
       )}
 
       {/* Top bar */}
-      <header className="bg-[#18110D] border-b border-white/[0.08] sticky top-0 z-40">
+      <header className="bg-[#141111] border-b border-white/[0.08] sticky top-0 z-40">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img src="/trophy.png" alt="trophy" className="w-6 h-6 object-contain scale-[1.4]" style={{ imageRendering: 'pixelated' }} />
-            <span className="font-bold text-white text-lg">Quiniela Draft</span>
+            <span className="font-bold text-[#ebe0cc] text-lg">Quiniela Draft</span>
           </div>
           <button
             onClick={handleSubmitClick}
             className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-colors uppercase ${
               canSubmit
-                ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
+                ? 'bg-[#ebe0cc] text-[#141111] hover:bg-[#ebe0cc]/90'
                 : 'bg-white/[0.06] text-[#6b5c4e]'
             }`}
           >
@@ -584,7 +584,7 @@ export default function DraftPage() {
       </header>
 
       {/* Team table */}
-      <div className="pt-4 pb-32">
+      <div className="pt-4 pb-32 max-w-2xl mx-auto">
         {loading && (
           <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 pointer-events-none">
             <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain" style={{ imageRendering: 'pixelated' }} />
@@ -598,7 +598,7 @@ export default function DraftPage() {
             <div ref={instructionsRef} className="px-4 mb-4">
               {selectedPlayer && (
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-3xl font-bold text-white uppercase">{playerName}</span>
+                  <span className="text-3xl font-bold text-[#ebe0cc] uppercase">{playerName}</span>
                   <button
                     onClick={() => setPickerOpen(true)}
                     className="px-2.5 py-1 rounded-lg text-xs font-semibold text-[#6b5c4e] bg-white/[0.05] hover:bg-white/[0.08] hover:text-[#888] transition-colors uppercase"
@@ -607,8 +607,8 @@ export default function DraftPage() {
                   </button>
                 </div>
               )}
-              <p className="text-sm text-white font-bold uppercase mb-1 mt-4">Instructions</p>
-              <ul className="text-xs text-white/60 leading-relaxed space-y-0.5 list-disc list-inside">
+              <p className="text-sm text-[#ebe0cc] font-bold uppercase mb-1 mt-4">Instructions</p>
+              <ul className="text-xs text-[#ebe0cc]/60 leading-relaxed space-y-0.5 list-[square] list-inside">
 <li><span className="text-[#6bcb69]">$20</span> buy-in = <span className="text-[#eeb22d] font-semibold">200¢</span> for buying teams</li>
 <li>buy multiple shares, up to <span className="text-[#eeb22d] font-semibold">80¢</span> per team</li>
 <li>win <span className="text-[#eeb22d] font-semibold">coins</span> when your teams earn prizes</li>
@@ -616,22 +616,22 @@ export default function DraftPage() {
               <div className="flex justify-center my-3">
                 <button
                   onClick={() => setBetsOpen(true)}
-                  className="px-2.5 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
+                  className="px-2.5 py-2 rounded-lg text-xs font-semibold text-[#141111] bg-[#7b7060] hover:bg-[#7b7060]/90 transition-colors uppercase"
                 >
                   See Prizes
                 </button>
               </div>
-              <p className="text-xs text-white/40 text-center mt-10 mb-0">press a team name for more info</p>
+              <p className="text-xs text-[#ebe0cc]/40 text-center mt-10 mb-0">press a team name for more info</p>
             </div>
 
             <div ref={tableSentinelRef} style={{ height: 0 }} />
-            <div className="bg-[#18110D] border-y border-white/[0.08]">
+            <div className="bg-[#141111] border-y border-white/[0.08]">
               <table className="w-full text-sm">
-                <thead className={`sticky top-14 z-30 transition-colors ${tableHeaderSticky ? 'bg-[#c9bba9]' : 'bg-[#18110D]'}`}>
+                <thead className={`sticky top-14 z-30 transition-colors ${tableHeaderSticky ? 'bg-[#ebe0cc]' : 'bg-[#141111]'}`}>
                   <tr>
-                    <th className={`text-left px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Team</th>
-                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Price</th>
-                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#3d1f0a]' : 'text-[#c9bba9]'}`}>Shares</th>
+                    <th className={`text-left px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#141111]' : 'text-[#ebe0cc]'}`}>Team</th>
+                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#141111]' : 'text-[#ebe0cc]'}`}>Price</th>
+                    <th className={`text-right px-2 py-2 font-medium ${tableHeaderSticky ? 'text-[#141111]' : 'text-[#ebe0cc]'}`}>Shares</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -642,14 +642,14 @@ export default function DraftPage() {
                     const canDec = cur > 0
 
                     return (
-                      <tr key={team.id} className={`border-b border-white/[0.04] last:border-0 ${cur > 0 ? 'bg-[#c9bba9]/15' : ''}`}>
+                      <tr key={team.id} className={`border-b border-white/[0.04] last:border-0 ${cur > 0 ? 'bg-[#ebe0cc]/5' : ''}`}>
                         <td className="px-2 py-1.5 max-w-0 w-full">
                           <button
                             className="flex items-center gap-2 text-left hover:opacity-80 transition-opacity w-full min-w-0"
                             onClick={() => setOpenTeam(team)}
                           >
                             <FlagImage code={team.code} name={team.name} size={28} outlined className="shrink-0" />
-                            <span className={`font-medium truncate uppercase ${cur > 0 ? 'text-white' : 'text-white/50'}`}>{team.name}</span>
+                            <span className={`font-medium truncate uppercase ${cur > 0 ? 'text-[#ebe0cc]' : 'text-[#ebe0cc]/50'}`}>{team.name}</span>
                           </button>
                         </td>
                         <td className="text-right px-2 py-1.5 text-[#eeb22d] font-bold text-base whitespace-nowrap">{team.draft_value}¢</td>
@@ -660,13 +660,13 @@ export default function DraftPage() {
                             onClick={() => adjustShares(team.id, -1, maxShares)}
                             className={`w-7 h-7 rounded-md text-base font-bold transition-colors flex items-center justify-center ${
                               canDec
-                                ? 'bg-white/[0.08] text-white hover:bg-white/[0.14]'
+                                ? 'bg-white/[0.08] text-[#ebe0cc] hover:bg-white/[0.14]'
                                 : 'bg-white/[0.03] text-[#333] cursor-not-allowed'
                             }`}
                           >
                             <span className="relative" style={{ top: '-2.4px', left: '1px' }}>−</span>
                           </button>
-                          <span className={`w-5 text-center font-bold ${cur > 0 ? 'text-white' : 'text-[#5a4a3c]'}`}>
+                          <span className={`w-5 text-center font-bold ${cur > 0 ? 'text-[#ebe0cc]' : 'text-[#5a4a3c]'}`}>
                             {cur}
                           </span>
                           <button
@@ -674,7 +674,7 @@ export default function DraftPage() {
                             onClick={() => adjustShares(team.id, 1, maxShares)}
                             className={`w-7 h-7 rounded-md text-base font-bold transition-colors flex items-center justify-center ${
                               canInc
-                                ? 'bg-white/[0.08] text-white hover:bg-white/[0.14]'
+                                ? 'bg-white/[0.08] text-[#ebe0cc] hover:bg-white/[0.14]'
                                 : 'bg-white/[0.03] text-[#333] cursor-not-allowed'
                             }`}
                           >
@@ -695,20 +695,20 @@ export default function DraftPage() {
               onClick={handleSubmitClick}
               className={`px-8 py-3 rounded-xl text-sm font-bold transition-colors uppercase ${
                 canSubmit
-                  ? 'bg-[#c9bba9] text-[#3d1f0a] hover:bg-[#c9bba9]/90'
+                  ? 'bg-[#ebe0cc] text-[#141111] hover:bg-[#ebe0cc]/90'
                   : 'bg-white/[0.06] text-[#6b5c4e]'
               }`}
             >
               Submit Draft
             </button>
-            <p className="text-xs text-white/40">Resubmit anytime to make changes</p>
+            <p className="text-xs text-[#ebe0cc]/40">Resubmit anytime to make changes</p>
           </div>
           </>
         )}
       </div>
 
       {/* Fixed bottom bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-[#18110D] border-t border-white/[0.08]">
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-[#141111] border-t border-white/[0.08]">
         <div className="max-w-2xl mx-auto px-6 py-4 flex justify-between items-center relative">
           <div>
             <p className={`text-3xl font-bold transition-colors duration-150 ${budgetColor}`}>
@@ -719,13 +719,13 @@ export default function DraftPage() {
           <div className={`absolute left-1/2 -translate-x-1/2 transition-opacity duration-300 ${instructionsVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <button
               onClick={() => setBetsOpen(true)}
-              className="px-3 py-2 rounded-lg text-xs font-semibold text-[#18110D] bg-[#776856] hover:bg-[#776856]/90 transition-colors uppercase"
+              className="px-3 py-2 rounded-lg text-xs font-semibold text-[#141111] bg-[#7b7060] hover:bg-[#7b7060]/90 transition-colors uppercase"
             >
               See Prizes
             </button>
           </div>
           <button className="text-right" onClick={() => setTeamsOpen(true)}>
-            <p className="text-3xl font-bold text-white">{teamCount}</p>
+            <p className="text-3xl font-bold text-[#ebe0cc]">{teamCount}</p>
             <p className="text-xs text-[#6b5c4e] mt-0.5 uppercase">View Teams</p>
           </button>
         </div>

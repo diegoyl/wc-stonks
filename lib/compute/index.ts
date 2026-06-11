@@ -78,7 +78,7 @@ export function portfolioValueOverTime(
   )].sort()
 
   return [
-    { date: '2026-06-11', cumulative: 100 },
+    { date: '2026-06-11', cumulative: 200 },
     ...dates.map(date => {
       const eventsUpTo = events.filter(e => e.effective_at.slice(0, 10) <= date)
       const tvMap = new Map<string, number>()

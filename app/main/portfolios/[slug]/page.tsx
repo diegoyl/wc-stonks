@@ -34,15 +34,15 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
       <div className="mb-5">
         <Link href="/main/portfolios" className="text-sm text-[#666] mb-2 inline-block">← All portfolios</Link>
         <div className="flex items-baseline gap-2 flex-wrap">
-          <h1 className="text-2xl font-bold text-white">{player.name}</h1>
+          <h1 className="text-2xl font-bold text-[#ebe0cc]">{player.name}</h1>
           {isMe && <span className="text-xs font-semibold text-[#00c805] bg-[#00c805]/10 px-2 py-0.5 rounded-full">you</span>}
         </div>
         {entry && (
-          <p className="text-3xl font-black text-white mt-1">{formatCoins(entry.current_value)}</p>
+          <p className="text-3xl font-black text-[#ebe0cc] mt-1">{formatCoins(entry.current_value)}</p>
         )}
       </div>
 
-      <div className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
+      <div className="bg-[#141111] rounded-xl border border-white/[0.08] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[300px]">
             <thead>
@@ -63,13 +63,13 @@ export default function PlayerPortfolioPage({ params }: { params: Promise<{ slug
                       onClick={() => setSelectedTeam(row.team.id)}
                     >
                       <FlagImage code={row.team.code} name={row.team.name} size={20} />
-                      <span className="font-medium text-white">{row.team.name}</span>
+                      <span className="font-medium text-[#ebe0cc]">{row.team.name}</span>
                     </button>
                   </td>
                   <td className="text-right px-3 py-3 text-[#888]">{row.holding.shares}</td>
                   <td className="text-right px-3 py-3 text-[#666] hidden sm:table-cell">{formatCoins(row.team.draft_value)}</td>
                   <td className="text-right px-3 py-3 text-[#888] hidden sm:table-cell">{formatCoins(row.team.current_value)}</td>
-                  <td className="text-right px-4 py-3 font-bold text-white">{formatCoins(row.total_value)}</td>
+                  <td className="text-right px-4 py-3 font-bold text-[#ebe0cc]">{formatCoins(row.total_value)}</td>
                 </tr>
               ))}
             </tbody>

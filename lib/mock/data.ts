@@ -38,45 +38,49 @@ export const TEAMS: Team[] = DRAFT_TEAMS.map((t, i) => ({
 }))
 
 // ─── Holdings ─────────────────────────────────────────────────────────────────
-// Prices are much higher with real data; max 40¢ per team, 100¢ total.
+// Budget: 200¢ per player, max 80¢ per team (matches draft page constants).
 //
-// Diego:     ESP×1(40) + NOR×2(28) + JPN×2(24) + AUS×1(8)  = 100¢
-// Andres:    BRA×1(36) + COL×2(24) + USA×4(40)             = 100¢
-// Ana Paula: ARG×1(36) + NED×2(36) + MEX×2(20) + AUS×1(8) = 100¢
-// Fabian:    ENG×1(36) + GER×1(22) + BEL×2(28) + CUW×7(14)= 100¢
-// Mami:      FRA×1(40) + MAR×3(36) + SEN×2(20) + CPV×1(4) = 100¢
-// Papi:      POR×1(26) + URU×3(36) + ECU×3(30) + AUS×1(8) = 100¢
+// Diego:     ESP×1(80) + GER×1(48) + NOR×1(36) + JPN×1(24) + CZE×1(12) = 200¢
+// Andres:    BRA×1(68) + COL×2(56) + USA×2(36) + MEX×2(40)              = 200¢
+// Ana Paula: ARG×1(72) + NED×1(36) + ECU×2(48) + MAR×1(26) + CRO×1(18) = 200¢
+// Fabian:    ENG×1(72) + BEL×2(56) + SUI×2(44) + CUW×7(28)             = 200¢
+// Mami:      FRA×1(80) + MAR×2(52) + SEN×2(44) + CPV×4(24)             = 200¢
+// Papi:      POR×1(54) + URU×2(52) + ECU×2(48) + AUS×2(28) + IRQ×3(18) = 200¢
 
 export const HOLDINGS: Holding[] = [
   // Diego
   { id: 'h-diego-esp', player_id: 'player-diego', team_id: 'ESP', shares: 1 },
-  { id: 'h-diego-nor', player_id: 'player-diego', team_id: 'NOR', shares: 2 },
-  { id: 'h-diego-jpn', player_id: 'player-diego', team_id: 'JPN', shares: 2 },
-  { id: 'h-diego-aus', player_id: 'player-diego', team_id: 'AUS', shares: 1 },
+  { id: 'h-diego-ger', player_id: 'player-diego', team_id: 'GER', shares: 1 },
+  { id: 'h-diego-nor', player_id: 'player-diego', team_id: 'NOR', shares: 1 },
+  { id: 'h-diego-jpn', player_id: 'player-diego', team_id: 'JPN', shares: 1 },
+  { id: 'h-diego-cze', player_id: 'player-diego', team_id: 'CZE', shares: 1 },
   // Andres
   { id: 'h-andres-bra', player_id: 'player-marco', team_id: 'BRA', shares: 1 },
   { id: 'h-andres-col', player_id: 'player-marco', team_id: 'COL', shares: 2 },
-  { id: 'h-andres-usa', player_id: 'player-marco', team_id: 'USA', shares: 4 },
+  { id: 'h-andres-usa', player_id: 'player-marco', team_id: 'USA', shares: 2 },
+  { id: 'h-andres-mex', player_id: 'player-marco', team_id: 'MEX', shares: 2 },
   // Ana Paula
   { id: 'h-anapaula-arg', player_id: 'player-sofia', team_id: 'ARG', shares: 1 },
-  { id: 'h-anapaula-ned', player_id: 'player-sofia', team_id: 'NED', shares: 2 },
-  { id: 'h-anapaula-mex', player_id: 'player-sofia', team_id: 'MEX', shares: 2 },
-  { id: 'h-anapaula-aus', player_id: 'player-sofia', team_id: 'AUS', shares: 1 },
+  { id: 'h-anapaula-ned', player_id: 'player-sofia', team_id: 'NED', shares: 1 },
+  { id: 'h-anapaula-ecu', player_id: 'player-sofia', team_id: 'ECU', shares: 2 },
+  { id: 'h-anapaula-mar', player_id: 'player-sofia', team_id: 'MAR', shares: 1 },
+  { id: 'h-anapaula-cro', player_id: 'player-sofia', team_id: 'CRO', shares: 1 },
   // Fabian
   { id: 'h-fabian-eng', player_id: 'player-lucas', team_id: 'ENG', shares: 1 },
-  { id: 'h-fabian-ger', player_id: 'player-lucas', team_id: 'GER', shares: 1 },
   { id: 'h-fabian-bel', player_id: 'player-lucas', team_id: 'BEL', shares: 2 },
+  { id: 'h-fabian-sui', player_id: 'player-lucas', team_id: 'SUI', shares: 2 },
   { id: 'h-fabian-cuw', player_id: 'player-lucas', team_id: 'CUW', shares: 7 },
   // Mami
   { id: 'h-mami-fra', player_id: 'player-ana', team_id: 'FRA', shares: 1 },
-  { id: 'h-mami-mar', player_id: 'player-ana', team_id: 'MAR', shares: 3 },
+  { id: 'h-mami-mar', player_id: 'player-ana', team_id: 'MAR', shares: 2 },
   { id: 'h-mami-sen', player_id: 'player-ana', team_id: 'SEN', shares: 2 },
-  { id: 'h-mami-cpv', player_id: 'player-ana', team_id: 'CPV', shares: 1 },
+  { id: 'h-mami-cpv', player_id: 'player-ana', team_id: 'CPV', shares: 4 },
   // Papi
   { id: 'h-papi-por', player_id: 'player-raj', team_id: 'POR', shares: 1 },
-  { id: 'h-papi-uru', player_id: 'player-raj', team_id: 'URU', shares: 3 },
-  { id: 'h-papi-ecu', player_id: 'player-raj', team_id: 'ECU', shares: 3 },
-  { id: 'h-papi-aus', player_id: 'player-raj', team_id: 'AUS', shares: 1 },
+  { id: 'h-papi-uru', player_id: 'player-raj', team_id: 'URU', shares: 2 },
+  { id: 'h-papi-ecu', player_id: 'player-raj', team_id: 'ECU', shares: 2 },
+  { id: 'h-papi-aus', player_id: 'player-raj', team_id: 'AUS', shares: 2 },
+  { id: 'h-papi-irq', player_id: 'player-raj', team_id: 'IRQ', shares: 3 },
 ]
 
 // ─── Main pot rules ──────────────────────────────────────────────────────────

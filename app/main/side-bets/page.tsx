@@ -15,7 +15,7 @@ export default function SideBetsPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-white mb-4">Side Bets</h1>
+      <h1 className="text-xl font-bold text-[#ebe0cc] mb-4">Side Bets</h1>
 
       <div className="space-y-4">
         {bets.map(bet => {
@@ -24,13 +24,13 @@ export default function SideBetsPage() {
           const standings = !settled ? getSideBetStandingsForBet(bet.id) : []
 
           return (
-            <div key={bet.id} className="bg-[#18110D] rounded-xl border border-white/[0.08] overflow-hidden">
+            <div key={bet.id} className="bg-[#141111] rounded-xl border border-white/[0.08] overflow-hidden">
               {/* Header */}
               <div className="px-4 py-3 border-b border-white/[0.06]">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-bold text-white text-sm">{bet.name}</h2>
+                      <h2 className="font-bold text-[#ebe0cc] text-sm">{bet.name}</h2>
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                         settled
                           ? 'bg-[#00c805]/15 text-[#00c805]'
@@ -43,7 +43,7 @@ export default function SideBetsPage() {
                       <p className="text-xs text-[#666] mt-0.5 leading-snug">{bet.description}</p>
                     )}
                   </div>
-                  <span className="font-bold text-white text-sm shrink-0">{formatCoins(bet.payout)}</span>
+                  <span className="font-bold text-[#ebe0cc] text-sm shrink-0">{formatCoins(bet.payout)}</span>
                 </div>
               </div>
 
@@ -60,7 +60,7 @@ export default function SideBetsPage() {
                           onClick={() => setSelectedTeam(team.id)}
                         >
                           <FlagImage code={team.code} name={team.name} size={20} />
-                          <span className="font-semibold text-white">{team.name}</span>
+                          <span className="font-semibold text-[#ebe0cc]">{team.name}</span>
                           {winners.length > 1 && (
                             <span className="text-xs text-[#666]">split</span>
                           )}
@@ -86,7 +86,7 @@ export default function SideBetsPage() {
                           onClick={() => setSelectedTeam(team.id)}
                         >
                           <FlagImage code={team.code} name={team.name} size={18} />
-                          <span className="font-medium text-white">{team.name}</span>
+                          <span className="font-medium text-[#ebe0cc]">{team.name}</span>
                         </button>
                         <span className="text-sm text-[#888]">{s.metric_value}</span>
                         {s.rank === 1 && (

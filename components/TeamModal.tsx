@@ -14,7 +14,7 @@ const CHART_STYLE = {
   grid: 'rgba(255,255,255,0.05)',
   tick: '#555' as const,
   tooltip: {
-    contentStyle: { background: '#18110D', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
+    contentStyle: { background: '#141111', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#fff' },
     labelStyle: { color: '#888' },
   },
 }
@@ -55,7 +55,7 @@ export default function TeamModal({ teamId, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={onClose}>
       <div
-        className="bg-[#18110D] border border-white/[0.08] rounded-2xl shadow-2xl p-5 w-full max-w-md max-h-[90vh] flex flex-col overflow-y-auto"
+        className="bg-[#141111] border border-white/[0.08] rounded-2xl shadow-2xl p-5 w-full max-w-md max-h-[90vh] flex flex-col overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -64,10 +64,10 @@ export default function TeamModal({ teamId, onClose }: Props) {
             <FlagImage code={team.code} name={team.name} size={44} />
             <div>
               <p className="text-xs font-semibold text-[#666] uppercase tracking-wide leading-none mb-1">{team.code}</p>
-              <h2 className="text-xl font-bold text-white leading-tight">{team.name}</h2>
+              <h2 className="text-xl font-bold text-[#ebe0cc] leading-tight">{team.name}</h2>
             </div>
           </div>
-          <button onClick={onClose} className="text-[#555] hover:text-white text-2xl font-light leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
+          <button onClick={onClose} className="text-[#555] hover:text-[#ebe0cc] text-2xl font-light leading-none p-1 ml-4 shrink-0 transition-colors">×</button>
         </div>
 
         {/* Stat cards */}
@@ -110,7 +110,7 @@ export default function TeamModal({ teamId, onClose }: Props) {
                   const label = rule?.label ?? (e.source === 'side_bet' ? 'Side bet' : 'Event')
                   return (
                     <div key={e.id} className="flex items-center justify-between py-2.5 border-b border-white/[0.05] last:border-0">
-                      <span className="font-medium text-white text-sm">{label}</span>
+                      <span className="font-medium text-[#ebe0cc] text-sm">{label}</span>
                       <span className={`font-semibold text-sm shrink-0 ml-2 ${e.amount >= 0 ? 'text-[#00c805]' : 'text-[#ff4b4b]'}`}>
                         {formatCoins(e.amount)}
                       </span>
