@@ -110,6 +110,7 @@ const FALLBACK_PLAYERS: Player[] = [
   { id: 4, name: 'Diego',     slug: 'diego' },
   { id: 5, name: 'Mami',      slug: 'mami' },
   { id: 6, name: 'Papi',      slug: 'papi' },
+  { id: 25, name: 'Luis',     slug: 'luis-fallback' },
 ]
 
 function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
@@ -129,7 +130,7 @@ function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
     const timeout = setTimeout(() => {
       setPlayers(p => p.length ? p : FALLBACK_PLAYERS)
       setLoadingPlayers(false)
-    }, 3000)
+    }, 6000)
     loadPlayers()
       .then(p => {
         clearTimeout(timeout)
