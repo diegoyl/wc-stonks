@@ -1,15 +1,16 @@
 'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { DRAFT_TEAMS } from '@/lib/data/teams'
 import type { DraftTeam } from '@/lib/data/teams'
 import { MAIN_POT_RULES } from '@/lib/mock/data'
 import FlagImage from '@/components/FlagImage'
 import DraftTeamPopup from '@/components/DraftTeamPopup'
-import { loadDraftSubmission, saveDraftSubmission, loadPlayers, createPlayer } from '@/lib/supabase'
 import type { Player } from '@/lib/types'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
+
+const LUIS: Player = { id: 11, name: 'Luis', slug: 'luis' }
 
 const BUDGET = 200
 const MAX_PER_TEAM = 80
@@ -23,207 +24,107 @@ const SORTED_TEAMS = [...DRAFT_TEAMS].sort((a, b) =>
 function ConfirmModal({
   shares,
   remaining,
-  onConfirm,
   onEdit,
 }: {
   shares: Record<string, number>
   remaining: number
-  onConfirm: () => void
   onEdit: () => void
 }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+  const [flashOn, setFlashOn] = useState(true)
+
   const pickedTeams = SORTED_TEAMS
     .filter(t => (shares[t.id] ?? 0) > 0)
     .sort((a, b) => (shares[b.id] * b.draft_value) - (shares[a.id] * a.draft_value))
+
+  useLayoutEffect(() => {
+    const container = containerRef.current
+    const content = contentRef.current
+    if (!container || !content) return
+
+    function fit() {
+      setScale(1)
+      requestAnimationFrame(() => {
+        if (!container || !content) return
+        const available = container.clientHeight
+        const natural = content.scrollHeight
+        if (available > 0 && natural > available) {
+          setScale(Math.max(0.55, (available - 2) / natural))
+        }
+      })
+    }
+
+    fit()
+    const observer = new ResizeObserver(fit)
+    observer.observe(container)
+    observer.observe(content)
+    window.addEventListener('resize', fit)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', fit)
+    }
+  }, [pickedTeams.length, remaining])
+
+  useEffect(() => {
+    const interval = setInterval(() => setFlashOn(v => !v), 500)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-sm overflow-hidden">
-        <div className="px-5 pt-5 pb-3">
-          <h2 className="text-lg text-[#ebe0cc] uppercase tracking-wide">Confirm Selections</h2>
-          {remaining >= 2 && (
-            <p className="text-xs text-[#f87171] mt-1.5">You still have {remaining}¢ left</p>
-          )}
-        </div>
-        <div className="border-t border-white/[0.08]">
-          <table className="w-full text-sm">
-            <tbody>
-              {pickedTeams.map(team => {
-                const count = shares[team.id]
-                const total = count * team.draft_value
-                return (
-                  <tr key={team.id} className="border-b border-white/[0.05] last:border-0">
-                    <td className="pl-4 py-2.5">
-                      <FlagImage code={team.code} name={team.name} size={30} outlined />
-                    </td>
-                    <td className="pl-2 pr-3 py-2.5 text-base text-[#ebe0cc]">{team.code}</td>
-                    <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-right tabular-nums">{count}</td>
-                    <td className="py-2.5 px-1.5 text-xs text-[#ebe0cc]/40 text-center">×</td>
-                    <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-left tabular-nums">{team.draft_value}¢</td>
-                    <td className="pr-4 pl-3 py-2.5 text-right text-base text-[#eeb22d] tabular-nums">{total}¢</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-        <div className="px-5 py-4 border-t border-white/[0.08]">
-          <div className="flex flex-col gap-2">
-            <button
-              onClick={onConfirm}
-              className="w-full py-3 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm hover:bg-[#ebe0cc]/90 transition-colors uppercase"
+      <div
+        ref={containerRef}
+        className="w-full max-w-sm max-h-[calc(100dvh-2rem)] flex items-center justify-center overflow-hidden"
+      >
+        <div
+          ref={contentRef}
+          style={{ transform: scale < 1 ? `scale(${scale})` : undefined, transformOrigin: 'center center' }}
+          className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full overflow-hidden"
+        >
+          <div className="px-5 pt-5 pb-3">
+            <ol
+              className="text-base text-[#ebe0cc] leading-relaxed space-y-1 list-decimal list-inside"
+              style={{ opacity: flashOn ? 1 : 0.2 }}
             >
-              Submit
-            </button>
+              <li>Take screenshot</li>
+              <li>Send to Diego</li>
+            </ol>
+          </div>
+          <div className="border-t border-white/[0.08]">
+            <table className="w-full text-sm">
+              <tbody>
+                {pickedTeams.map(team => {
+                  const count = shares[team.id]
+                  const total = count * team.draft_value
+                  return (
+                    <tr key={team.id} className="border-b border-white/[0.05] last:border-0">
+                      <td className="pl-4 py-2.5">
+                        <FlagImage code={team.code} name={team.name} size={30} outlined />
+                      </td>
+                      <td className="pl-2 pr-3 py-2.5 text-base text-[#ebe0cc]">{team.code}</td>
+                      <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-right tabular-nums">{count}</td>
+                      <td className="py-2.5 px-1.5 text-xs text-[#ebe0cc]/40 text-center">×</td>
+                      <td className="py-2.5 text-xs text-[#ebe0cc]/40 text-left tabular-nums">{team.draft_value}¢</td>
+                      <td className="pr-4 pl-3 py-2.5 text-right text-base text-[#eeb22d] tabular-nums">{total}¢</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="px-5 py-3 border-t border-white/[0.08]">
+            {remaining >= 2 && (
+              <p className="text-xs text-[#f87171] mb-2 text-center">You still have {remaining}¢ left</p>
+            )}
             <button
               onClick={onEdit}
-              className="w-full py-3 rounded-lg border border-white/[0.12] text-sm text-[#ebe0cc] hover:bg-white/[0.05] transition-colors uppercase"
+              className="w-full py-2 rounded-lg border border-white/[0.12] text-sm text-[#ebe0cc] hover:bg-white/[0.05] transition-colors uppercase"
             >
               Edit Picks
             </button>
           </div>
-          <p className="text-xs text-[#ebe0cc]/40 text-center mt-3">Resubmit anytime to make changes</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ─── Success screen ───────────────────────────────────────────────────────────
-
-function SuccessScreen({ playerName }: { playerName: string }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141111]">
-      <div className="text-center">
-        <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain mx-auto mb-4" style={{ imageRendering: 'pixelated' }} />
-        <h1 className="text-2xl text-[#ebe0cc] mb-2">Picks Submitted!</h1>
-        <p className="text-[#7a6a5a] text-sm">Resubmit form to make changes</p>
-      </div>
-    </div>
-  )
-}
-
-// ─── Player picker ────────────────────────────────────────────────────────────
-
-const FALLBACK_PLAYERS: Player[] = [
-  { id: 1, name: 'Andres',    slug: 'andres' },
-  { id: 2, name: 'Ana Paula', slug: 'ana-paula' },
-  { id: 3, name: 'Fabian',    slug: 'fabian' },
-  { id: 4, name: 'Diego',     slug: 'diego' },
-  { id: 5, name: 'Mami',      slug: 'mami' },
-  { id: 6, name: 'Papi',      slug: 'papi' },
-  { id: 25, name: 'Luis',     slug: 'luis-fallback' },
-]
-
-function PlayerPicker({ onSelect }: { onSelect: (player: Player) => void }) {
-  const [players, setPlayers] = useState<Player[]>([])
-  const [loadingPlayers, setLoadingPlayers] = useState(true)
-  const [addingNew, setAddingNew] = useState(false)
-  const [newName, setNewName] = useState('')
-  const [saving, setSaving] = useState(false)
-  const [flashOn, setFlashOn] = useState(true)
-
-  useEffect(() => {
-    const cached = localStorage.getItem('quiniela_players')
-    if (cached) {
-      setPlayers(JSON.parse(cached))
-      setLoadingPlayers(false)
-    }
-    const timeout = setTimeout(() => {
-      setPlayers(p => p.length ? p : FALLBACK_PLAYERS)
-      setLoadingPlayers(false)
-    }, 6000)
-    loadPlayers()
-      .then(p => {
-        clearTimeout(timeout)
-        setPlayers(p)
-        setLoadingPlayers(false)
-        localStorage.setItem('quiniela_players', JSON.stringify(p))
-      })
-      .catch(() => { clearTimeout(timeout); setPlayers(p => p.length ? p : FALLBACK_PLAYERS); setLoadingPlayers(false) })
-    return () => clearTimeout(timeout)
-  }, [])
-
-  useEffect(() => {
-    if (!loadingPlayers) return
-    const interval = setInterval(() => setFlashOn(v => !v), 500)
-    return () => clearInterval(interval)
-  }, [loadingPlayers])
-
-  async function handleCreate() {
-    if (!newName.trim()) return
-    setSaving(true)
-    const player = await createPlayer(newName)
-    onSelect(player)
-  }
-
-  useEffect(() => {
-    const scrollY = window.scrollY
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${scrollY}px`
-    document.body.style.width = '100%'
-    return () => {
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.width = ''
-      window.scrollTo(0, scrollY)
-    }
-  }, [])
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ width: '100dvw' }}>
-      <div className="bg-[#141111] rounded-2xl border border-white/[0.1] w-full max-w-xs p-5">
-        <h2 className="text-lg text-[#ebe0cc] mb-3 text-center">Who are you?</h2>
-        <div className="space-y-1.5">
-          {!addingNew && (loadingPlayers
-            ? <div className="flex justify-center py-4">
-                <img
-                  src="/trophy.png"
-                  alt="loading"
-                  className="w-32 h-32 object-contain"
-                  style={{ imageRendering: 'pixelated', opacity: flashOn ? 1 : 0 }}
-                />
-              </div>
-            : players.map(p => (
-              <button
-                key={p.id}
-                onClick={() => onSelect(p)}
-                className="w-full text-left px-4 py-2 rounded-xl border border-white/[0.08] text-[#ebe0cc] hover:bg-white/[0.06] hover:border-white/[0.16] transition-all active:scale-[0.98] uppercase text-sm"
-              >
-                {p.name}
-              </button>
-            ))
-          )}
-          {!loadingPlayers && (addingNew ? (
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => { setAddingNew(false); setNewName('') }}
-                className="text-xs text-[#555] hover:text-[#888] transition-colors w-full text-center uppercase tracking-wide my-3"
-              >
-                ← Back
-              </button>
-              <input
-                autoFocus
-                value={newName}
-                onChange={e => setNewName(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleCreate()}
-                placeholder="Name"
-                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.12] text-[#ebe0cc] text-sm placeholder:text-[#6b5c4e] outline-none focus:border-white/30"
-              />
-              <button
-                onClick={handleCreate}
-                disabled={!newName.trim() || saving}
-                className="w-full py-2.5 rounded-lg bg-[#ebe0cc] text-[#141111] text-sm disabled:opacity-40"
-              >
-                {saving ? '…' : 'CREATE USER'}
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setAddingNew(true)}
-              className="w-full text-left px-4 py-3 rounded-xl bg-[#ebe0cc] text-[#141111] text-sm hover:bg-[#ebe0cc]/90 transition-colors uppercase"
-            >
-              + New User
-            </button>
-          ))}
         </div>
       </div>
     </div>
@@ -442,9 +343,8 @@ function BetsPopup({ onClose }: { onClose: () => void }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default function DraftPage() {
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
-  const [pickerOpen, setPickerOpen] = useState(true)
+export default function LuisDraftPage() {
+  const selectedPlayer = LUIS
   const [shares, setShares] = useState<Record<string, number>>({})
   const [openTeam, setOpenTeam] = useState<DraftTeam | null>(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
@@ -454,12 +354,7 @@ export default function DraftPage() {
   const instructionsRef = useRef<HTMLDivElement>(null)
   const [tableHeaderSticky, setTableHeaderSticky] = useState(false)
   const tableSentinelRef = useRef<HTMLDivElement>(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [overBudgetOpen, setOverBudgetOpen] = useState(false)
-
-  // Always show picker on mount
-  useEffect(() => { setPickerOpen(true) }, [])
 
   useEffect(() => {
     const el = instructionsRef.current
@@ -467,7 +362,7 @@ export default function DraftPage() {
     const observer = new IntersectionObserver(([entry]) => setInstructionsVisible(entry.isIntersecting), { threshold: 0 })
     observer.observe(el)
     return () => observer.disconnect()
-  }, [loading]) // re-run after loading screen unmounts so ref is attached
+  }, [])
 
   useEffect(() => {
     const el = tableSentinelRef.current
@@ -478,19 +373,7 @@ export default function DraftPage() {
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [loading])
-
-  async function handlePlayerSelect(player: Player) {
-    setSelectedPlayer(player)
-    setPickerOpen(false)
-    setLoading(true)
-    const [prior] = await Promise.all([
-      loadDraftSubmission(player.id),
-      new Promise(res => setTimeout(res, 1000)),
-    ])
-    if (prior) setShares(prior as typeof shares)
-    setLoading(false)
-  }
+  }, [])
 
   function adjustShares(teamId: string, delta: number, maxShares: number) {
     setShares(prev => {
@@ -504,18 +387,6 @@ export default function DraftPage() {
     })
   }
 
-  async function handleConfirmSubmit() {
-    if (!selectedPlayer) return
-    try {
-      await saveDraftSubmission(selectedPlayer.id, shares)
-      setConfirmOpen(false)
-      setSubmitted(true)
-    } catch {
-      setConfirmOpen(false)
-      alert('Failed to save your draft. Please try again.')
-    }
-  }
-
   const spent = useMemo(
     () => DRAFT_TEAMS.reduce((s, t) => s + (shares[t.id] ?? 0) * t.draft_value, 0),
     [shares]
@@ -523,7 +394,7 @@ export default function DraftPage() {
   const remaining = BUDGET - spent
   const teamCount = Object.values(shares).filter(n => n > 0).length
   const playerName = selectedPlayer?.name ?? ''
-  const canSubmit = remaining >= 0 && !!selectedPlayer && !submitted && teamCount > 0
+  const canSubmit = remaining >= 0 && teamCount > 0
 
   function handleSubmitClick() {
     if (remaining < 0) { setOverBudgetOpen(true); return }
@@ -552,17 +423,13 @@ export default function DraftPage() {
     ? (animDir > 0 ? 'text-[#4ade80]' : 'text-[#f87171]')
     : (remaining < 0 ? 'text-[#ef4444]' : 'text-[#eeb22d]')
 
-  if (submitted) return <SuccessScreen playerName={playerName} />
-
   return (
     <>
-      {pickerOpen && <PlayerPicker onSelect={handlePlayerSelect} />}
       {teamsOpen && <ViewTeamsModal shares={shares} onClose={() => setTeamsOpen(false)} />}
       {confirmOpen && (
         <ConfirmModal
           shares={shares}
           remaining={remaining}
-          onConfirm={handleConfirmSubmit}
           onEdit={() => setConfirmOpen(false)}
         />
       )}
@@ -605,28 +472,12 @@ export default function DraftPage() {
 
       {/* Team table */}
       <div className="pt-4 pb-32 max-w-2xl mx-auto">
-        {loading && (
-          <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 pointer-events-none">
-            <img src="/trophy.png" alt="trophy" className="w-48 h-48 object-contain" style={{ imageRendering: 'pixelated' }} />
-            <p className="text-[#6b5c4e] text-sm">Loading draft…</p>
-          </div>
-        )}
-
-        {!loading && (
           <>
             {/* Player name + instructions — visible before scroll */}
             <div ref={instructionsRef} className="px-4 mb-4">
-              {selectedPlayer && (
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-3xl text-[#ebe0cc] uppercase">{playerName}</span>
-                  <button
-                    onClick={() => setPickerOpen(true)}
-                    className="px-2.5 py-1 rounded-lg text-xs text-[#6b5c4e] bg-white/[0.05] hover:bg-white/[0.08] hover:text-[#888] transition-colors uppercase"
-                  >
-                    Change User
-                  </button>
-                </div>
-              )}
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl text-[#ebe0cc] uppercase">{playerName}</span>
+              </div>
               <p className="text-sm text-[#ebe0cc] uppercase mb-3 mt-8">Instructions</p>
               <ul className="text-xs text-[#ebe0cc]/60 leading-relaxed space-y-2 list-[square] list-inside">
 <li><span className="text-[#6bcb69]">$20</span> buy-in = <span className="text-[#eeb22d]">200 COINS (¢)</span> for buying teams</li>
@@ -726,7 +577,7 @@ export default function DraftPage() {
             >
               Submit Picks
             </button>
-            <p className="text-xs text-[#ebe0cc]/40">Resubmit anytime to make changes</p>
+            <p className="text-xs text-[#ebe0cc]/40">Screenshot your summary and send to Diego</p>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="mt-6 text-xs text-[#ebe0cc]/40 hover:text-[#ebe0cc]/60 transition-colors uppercase tracking-wide"
@@ -735,7 +586,6 @@ export default function DraftPage() {
             </button>
           </div>
           </>
-        )}
       </div>
 
       {/* Fixed bottom bar */}
